@@ -1,7 +1,7 @@
 ﻿using StereoKit;
 using System;
 
-namespace LauncherCrossPlatform
+namespace LauncherCrossPlatform.Platforms.Windows
 {
     public static class Program
     {

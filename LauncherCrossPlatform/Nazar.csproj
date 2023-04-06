@@ -42,7 +42,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Infrastructure\NazarInfrastructure.csproj" />
+	  <ProjectReference Include="..\Infrastructure\BaseFramework.csproj" />
 	</ItemGroup>
 
 </Project>

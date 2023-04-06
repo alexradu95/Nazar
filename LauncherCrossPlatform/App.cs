@@ -1,9 +1,12 @@
-﻿using StereoKit;
+﻿using Infrastructure.Core.SceneGraph.Interfaces;
+using NazarInfrastructure.Examples.Village.House;
+using StereoKit;
 
 namespace LauncherCrossPlatform
 {
     public class App
     {
+        public readonly IBase3DNode rootNode;
         public SKSettings Settings => new SKSettings
         {
             appName = "LauncherCrossPlatform",
@@ -11,22 +14,19 @@ namespace LauncherCrossPlatform
             displayPreference = DisplayMode.MixedReality
         };
 
-        public VillageGraph villageGraph;
-
         public App()
         {
-
+            rootNode = new HouseNode();
         }
 
         public void Init()
         {
-            villageGraph = new VillageGraph("Village");
-            villageGraph.Generate(10);
+            rootNode.Initialize();
         }
 
         public void Step()
         {
-            villageGraph.Draw();
+            rootNode.Step();
         }
     }
 }

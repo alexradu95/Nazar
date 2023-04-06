@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33403.182
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NazarInfrastructure", "Infrastructure\NazarInfrastructure.csproj", "{90840468-5C72-4287-966D-78CD5FFE230B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseFramework", "Infrastructure\BaseFramework.csproj", "{90840468-5C72-4287-966D-78CD5FFE230B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NazarLauncher", "LauncherCrossPlatform\NazarLauncher.csproj", "{81F2353A-F858-424B-8331-5C2F910EF9F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nazar", "LauncherCrossPlatform\Nazar.csproj", "{81F2353A-F858-424B-8331-5C2F910EF9F0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleStuffModules", "ExampleStuffModules\ExampleStuffModules.csproj", "{6DEEE740-6FDF-42E3-AC96-806B9931E540}"
 EndProject

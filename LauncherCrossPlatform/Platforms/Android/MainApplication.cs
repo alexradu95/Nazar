@@ -2,7 +2,7 @@
 using Android.Runtime;
 using System;
 
-namespace LauncherCrossPlatform
+namespace LauncherCrossPlatform.Platforms.Android
 {
     [Application]
     public class MainApplication : Application
