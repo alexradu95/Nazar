@@ -1,8 +1,6 @@
-﻿using Infrastructure.Core.SceneGraph.Behaviours;
-
-namespace BaseFramework.Core.SceneGraph.Behaviours
+﻿namespace BaseFramework.Core.SceneGraph.Nodes.BaseNode.Behaviours.Interfaces
 {
-    public interface INodeNamed
+    public interface INodeIdentity
     {
         /// <summary>
         /// Unique identifier for this node.

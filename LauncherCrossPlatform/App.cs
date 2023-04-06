@@ -1,12 +1,12 @@
-﻿using Infrastructure.Core.SceneGraph.Interfaces;
-using NazarInfrastructure.Examples.Village.House;
+﻿using BaseFramework.Core.SceneGraph.Nodes.BaseNode.Behaviours.Interfaces;
+using BaseFramework.Core.SceneGraph.SpatialNodes;
 using StereoKit;
 
 namespace LauncherCrossPlatform
 {
     public class App
     {
-        public readonly IBase3DNode rootNode;
+        public readonly INode rootNode;
         public SKSettings Settings => new SKSettings
         {
             appName = "LauncherCrossPlatform",
@@ -16,7 +16,7 @@ namespace LauncherCrossPlatform
 
         public App()
         {
-            rootNode = new HouseNode();
+            rootNode = new SpatialNode();
         }
 
         public void Init()

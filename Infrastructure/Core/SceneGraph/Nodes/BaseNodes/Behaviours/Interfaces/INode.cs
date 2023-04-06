@@ -1,12 +1,10 @@
-﻿namespace Infrastructure.Core.SceneGraph.Behaviours
+﻿namespace BaseFramework.Core.SceneGraph.Nodes.BaseNode.Behaviours.Interfaces
 {
-    /// <summary>
-    /// Represents the lifecycle of a node within a Scene Graph pattern. The Scene Graph is a
-    /// hierarchical tree structure that organizes and manages game objects in a 3D graphics engine or
-    /// game engine. This interface provides methods for initializing, updating, and shutting down a node.
-    /// </summary>
-    public interface INodeLifecycle
+    public interface INode
     {
+        public INodeIdentity NodeIdentity { get; }
+        public INodeHierarchy Hierarchy { get; }
+
         /// <summary>
         /// Determines if the node is enabled. When disabled, the node and its children
         /// will not be updated during the Step call.

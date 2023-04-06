@@ -1,11 +1,4 @@
-﻿using BaseFramework.Core.SceneGraph;
-using StereoKit;
-using System.Text.RegularExpressions;
-using System.Xml.Linq;
-using System;
-using BaseFramework.Core.SceneGraph.Behaviours;
-
-namespace Infrastructure.Core.SceneGraph.Behaviours
+﻿namespace BaseFramework.Core.SceneGraph.Nodes.BaseNode.Behaviours.Interfaces
 {
     /// <summary>
     /// Represents a node's hierarchical relationship within a Scene Graph pattern. The Scene Graph is a
@@ -18,27 +11,27 @@ namespace Infrastructure.Core.SceneGraph.Behaviours
         /// <summary>
         /// The parent node in the Scene Graph hierarchy.
         /// </summary>
-        INodeHierarchy Parent { get; }
+        INode Parent { get; set; }
 
         /// <summary>
         /// List of child nodes within the Scene Graph hierarchy.
         /// </summary>
-        List<INodeHierarchy> Children { get; }
+        List<INode> Children { get; }
 
         /// <summary>
         /// Adds a child node to the current node.
         /// </summary>
         /// <param name="child">The child node to add.</param>
-        void AddChild(INodeHierarchy child);
+        void AddChild(INode child, INode parent);
 
         /// <summary>
         /// Removes a child node from the current node.
         /// </summary>
         /// <param name="child">The child node to remove.</param>
-        void RemoveChild(INodeHierarchy child);
+        void RemoveChild(INode child);
 
         // Finds a descendant of this node whose name matches nodeName
-        INodeHierarchy FindNode(String nodeName, bool recursive = true);
+        INode FindNode(string nodeName, bool recursive = true);
 
         /// <summary>
         /// Prints the tree of childs in a pretty format
