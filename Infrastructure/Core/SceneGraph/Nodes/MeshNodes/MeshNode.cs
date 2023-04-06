@@ -6,7 +6,7 @@ using StereoKit;
 
 namespace BaseFramework.Core.SceneGraph.Nodes.MeshNodes
 {
-    internal class MeshNode : SpatialNode
+    public class MeshNode : SpatialNode
     {
         INodeMesh mesh;
 
@@ -15,11 +15,18 @@ namespace BaseFramework.Core.SceneGraph.Nodes.MeshNodes
             this.mesh = mesh;
         }
 
+        public override void Step()
+        {
+            base.Step();
+            DrawMesh();
+        }
+
         public void DrawMesh()
         {
             if (mesh.Mesh != null && mesh.Material != null)
             {
-                Renderer.Add(mesh.Mesh, mesh.Material, Transform.GlobalTransform);
+                Mesh.Cube.Draw(mesh.Material, base.Transform.GlobalTransform);
+
             }
         }
     }

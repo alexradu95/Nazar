@@ -3,7 +3,7 @@ using StereoKit;
 
 namespace BaseFramework.Core.SceneGraph.Nodes.MeshNodes.Behaviour
 {
-    internal class NodeMesh : INodeMesh
+    public class NodeMesh : INodeMesh
     {
         private Mesh mesh;
 

@@ -1,4 +1,4 @@
-﻿using BaseFramework.Core.SceneGraph.Behaviours.Implementations;
+﻿using BaseFramework.Core.SceneGraph.Nodes.BaseNode.Behaviours.Behaviours;
 using BaseFramework.Core.SceneGraph.Nodes.BaseNode.Behaviours.Interfaces;
 
 namespace BaseFramework.Core.SceneGraph.Nodes.BaseNode
@@ -7,13 +7,7 @@ namespace BaseFramework.Core.SceneGraph.Nodes.BaseNode
     {
         public INodeIdentity NodeIdentity { get; }
         public INodeHierarchy Hierarchy { get; }
-
-        private bool enabled;
-        public bool Enabled
-        {
-            get { return enabled; }
-            set { enabled = value; }
-        }
+        public bool Enabled { get; set; } = true;
 
         public Node(INodeIdentity identity, INodeHierarchy hierarchy)
         {

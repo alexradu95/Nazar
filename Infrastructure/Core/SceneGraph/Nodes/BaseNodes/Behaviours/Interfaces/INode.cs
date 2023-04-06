@@ -3,7 +3,7 @@
     public interface INode
     {
         public INodeIdentity NodeIdentity { get; }
-        public INodeHierarchy Hierarchy { get; }
+        INodeHierarchy Hierarchy { get; }
 
         /// <summary>
         /// Determines if the node is enabled. When disabled, the node and its children

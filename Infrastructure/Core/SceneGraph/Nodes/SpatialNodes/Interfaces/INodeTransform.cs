@@ -9,7 +9,7 @@ namespace BaseFramework.Core.SceneGraph.SpatialNodes.Interfaces
 {
     public interface INodeTransform
     {
-        Matrix LocalTransform { get; set; }
-        Matrix GlobalTransform { get; set; }
+        public Matrix LocalTransform { get; set; }
+        public Matrix GlobalTransform { get; set; }
     }
 }
