@@ -1,16 +1,11 @@
-﻿#region File Description
-//-----------------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------------
 // A node is the basic container in the scene graph. Its basically a point in
 // transformations that can contain child nodes (and inherit transformations), 
 // and contain renderable entities to draw inside.
-//
-// Author: Ronen Ness.
-// Since: 2017.
 //-----------------------------------------------------------------------------
-#endregion
 using StereoKit;
 
-namespace MonoGameSceneGraph
+namespace SceneGraph
 {
     /// <summary>
     /// A callback function you can register on different node-related events.
@@ -24,6 +19,8 @@ namespace MonoGameSceneGraph
     /// </summary>
     public class Node
     {
+
+
         /// <summary>
         /// Parent node.
         /// </summary>
@@ -61,11 +58,6 @@ namespace MonoGameSceneGraph
         public object UserData;
 
         /// <summary>
-        /// Const return value for null bounding box.
-        /// </summary>
-        //private static readonly BoundingBox EmptyBoundingBox = new BoundingBox();
-
-        /// <summary>
         /// Local transformations matrix, eg the result of the current local transformations.
         /// </summary>
         protected Matrix _localTransform = Matrix.Identity;
@@ -76,7 +68,7 @@ namespace MonoGameSceneGraph
         protected Matrix _worldTransform = Matrix.Identity;
 
         /// <summary>
-        /// Child nodes under this node.
+        /// Child entities under this node.
         /// </summary>
         protected List<Node> _childNodes = new List<Node>();
 
@@ -211,7 +203,7 @@ namespace MonoGameSceneGraph
             // node already got a parent?
             if (node._parent != null)
             {
-                throw new System.Exception("Can't add a node that already have a parent.");
+                throw new Exception("Can't add a node that already have a parent.");
             }
 
             // add node to children list
@@ -231,7 +223,7 @@ namespace MonoGameSceneGraph
             // make sure the node is a child of this node
             if (node._parent != this)
             {
-                throw new System.Exception("Can't remove a node that don't belong to this parent.");
+                throw new Exception("Can't remove a node that don't belong to this parent.");
             }
 
             // remove node from children list
@@ -281,7 +273,7 @@ namespace MonoGameSceneGraph
             // don't have a parent?
             if (_parent == null)
             {
-                throw new System.Exception("Can't remove an orphan node from parent.");
+                throw new Exception("Can't remove an orphan node from parent.");
             }
 
             // remove from parent
@@ -341,7 +333,7 @@ namespace MonoGameSceneGraph
             }
 
             // check if parent is dirty, or if our last parent transform version mismatch parent current transform version
-            return (_parent._isDirty || _parentLastTransformVersion != _parent._transformVersion);
+            return _parent._isDirty || _parentLastTransformVersion != _parent._transformVersion;
         }
 
         /// <summary>
@@ -355,7 +347,7 @@ namespace MonoGameSceneGraph
             {
                 _localTransform = _pose.ToMatrix();
             }
-            
+
             // if local transformations are dirty or parent transformations are out-of-date, update world transformations
             if (_isDirty || NeedUpdateDueToParentChange())
             {
@@ -533,73 +525,5 @@ namespace MonoGameSceneGraph
         {
             get { return _childEntities.Count != 0; }
         }
-
-        ///// <summary>
-        ///// Get bounding box of this node and all its child nodes.
-        ///// </summary>
-        ///// <param name="includeChildNodes">If true, will include bounding box of child nodes. If false, only of entities directly attached to this node.</param>
-        ///// <returns>Bounding box of the node and its children.</returns>
-        //public virtual BoundingBox GetBoundingBox(bool includeChildNodes = true)
-        //{
-        //    // if empty skip
-        //    if (Empty)
-        //    {
-        //        return EmptyBoundingBox;
-        //    }
-
-        //    // make sure transformations are up-to-date
-        //    UpdateTransformations();
-
-        //    // list of points to build bounding box from
-        //    List<Vector3> corners = new List<Vector3>();
-
-        //    // apply all child nodes bounding boxes
-        //    if (includeChildNodes)
-        //    {
-        //        foreach (Node child in _childNodes)
-        //        {
-        //            // skip invisible nodes
-        //            if (!child.Visible)
-        //            {
-        //                continue;
-        //            }
-
-        //            // get bounding box
-        //            BoundingBox currBox = child.GetBoundingBox();
-        //            if (currBox.Min != currBox.Max)
-        //            {
-        //                corners.Add(currBox.Min);
-        //                corners.Add(currBox.Max);
-        //            }
-        //        }
-        //    }
-
-        //    // apply all entities directly under this node
-        //    foreach (IEntity entity in _childEntities)
-        //    {
-        //        // skip invisible entities
-        //        if (!entity.Visible)
-        //        {
-        //            continue;
-        //        }
-
-        //        // get entity bounding box
-        //        BoundingBox currBox = entity.GetBoundingBox(this, _localTransform, _worldTransform);
-        //        if (currBox.Min != currBox.Max)
-        //        {
-        //            corners.Add(currBox.Min);
-        //            corners.Add(currBox.Max);
-        //        }
-        //    }
-
-        //    // nothing in this node?
-        //    if (corners.Count == 0)
-        //    {
-        //        return EmptyBoundingBox;
-        //    }
-
-        //    // return final bounding box
-        //    return BoundingBox.CreateFromPoints(corners);
-        //}
     }
 }
