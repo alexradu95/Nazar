@@ -1,4 +1,5 @@
-﻿using StereoKit;
+﻿using SceneGraph.Interfaces;
+using StereoKit;
 
 namespace SceneGraph
 {
@@ -12,24 +13,25 @@ namespace SceneGraph
     /// A node with transformations, you can attach renderable entities to it, or append
     /// child nodes to inherit transformations.
     /// </summary>
-    public class Node
+    public class Node : INode
     {
-        /// <summary>
-        /// Parent node.
-        /// </summary>
-        protected Node _parent = null;
 
-        /// <summary>
-        /// Callback that triggers every time a node updates its matrix.
-        /// </summary>
-        public static NodeEventCallback OnTransformationsUpdate;
+        private readonly IHierarchy hierarchy;
+        private readonly ITransform transform;
+        private readonly INodeEvents events;
 
-        /// <summary>
-        /// Callback that triggers every time a node is rendered.
-        /// Note: nodes that are culled out should not trigger this.
-        /// </summary>
-        public static NodeEventCallback OnDraw;
+        public IHierarchy Hierarchy => hierarchy;
+        public ITransform Transform => transform;
+        public INodeEvents Events => events;
 
+        public Node(IHierarchy hierarchy, ITransform transform, INodeEvents events)
+        {
+            this.hierarchy = hierarchy;
+            this.transform = transform;
+            this.events = events;
+        }
+
+        private Node parentNode = null;
 
         /// <summary>
         /// Is this node currently visible?
@@ -39,12 +41,12 @@ namespace SceneGraph
         /// <summary>
         /// Optional identifier we can give to nodes.
         /// </summary>
-        public string Identifier;
+        public string Identifier { get; set; }
 
         /// <summary>
         /// Optional user data we can attach to nodes.
         /// </summary>
-        public object UserData;
+        public object UserData { get; set; }
 
 
         /// <summary>
@@ -85,9 +87,20 @@ namespace SceneGraph
         protected uint _parentLastTransformVersion = 0;
 
         /// <summary>
+        /// Callback that triggers every time a node updates its matrix.
+        /// </summary>
+        public event NodeEventCallback OnTransformationsUpdate;
+
+        /// <summary>
+        /// Callback that triggers every time a node is rendered.
+        /// Note: nodes that are culled out should not trigger this.
+        /// </summary>
+        public event NodeEventCallback OnDraw;
+
+        /// <summary>
         /// Get parent node.
         /// </summary>
-        public Node Parent { get { return _parent; } }
+        public Node Parent { get { return parentNode; } }
 
         /// <summary>
         /// Draw the node and its children.
@@ -137,7 +150,7 @@ namespace SceneGraph
 
         public void AddChildNode(Node node)
         {
-            if (node._parent != null)
+            if (node.parentNode != null)
             {
                 throw new System.Exception("Can't add a node that already have a parent.");
             }
@@ -148,7 +161,7 @@ namespace SceneGraph
 
         public void RemoveChildNode(Node node)
         {
-            if (node._parent != this)
+            if (node.parentNode != this)
             {
                 throw new System.Exception("Can't remove a node that don't belong to this parent.");
             }
@@ -183,12 +196,12 @@ namespace SceneGraph
 
         public void RemoveFromParent()
         {
-            if (_parent == null)
+            if (parentNode == null)
             {
                 throw new System.Exception("Can't remove an orphan node from parent.");
             }
 
-            _parent.RemoveChildNode(this);
+            parentNode.RemoveChildNode(this);
         }
 
         /// <summary>
@@ -197,15 +210,15 @@ namespace SceneGraph
         protected virtual void OnWorldMatrixChange()
         {
             // update transformations version
-            _transformVersion++;
+            TransformVersion++;
 
             // trigger update event
             OnTransformationsUpdate?.Invoke(this);
 
             // notify parent
-            if (_parent != null)
+            if (parentNode != null)
             {
-                _parent.OnChildWorldMatrixChange(this);
+                parentNode.OnChildWorldMatrixChange(this);
             }
         }
 
@@ -221,10 +234,10 @@ namespace SceneGraph
         protected virtual void SetParent(Node newParent)
         {
             // set parent
-            _parent = newParent;
+            parentNode = newParent;
 
             // set our parents last transformations version to make sure we'll update world transformations next frame.
-            _parentLastTransformVersion = newParent != null ? newParent._transformVersion - 1 : 1;
+            _parentLastTransformVersion = newParent != null ? newParent.TransformVersion - 1 : 1;
         }
 
         /// <summary>
@@ -234,13 +247,13 @@ namespace SceneGraph
         {
             // no parent? if parent last transform version is not 0, it means we had a parent but now we don't. 
             // still require update.
-            if (_parent == null)
+            if (parentNode == null)
             {
                 return _parentLastTransformVersion != 0;
             }
 
             // check if parent is dirty, or if our last parent transform version mismatch parent current transform version
-            return (_parent._isDirty || _parentLastTransformVersion != _parent._transformVersion);
+            return (parentNode._isDirty || _parentLastTransformVersion != parentNode.TransformVersion);
         }
 
         /// <summary>
@@ -249,27 +262,21 @@ namespace SceneGraph
         /// </summary>
         protected virtual void UpdateTransformations()
         {
-            // if local transformations are dirty, we need to update them
-            if (_isDirty)
-            {
-                _localTransform = _transformations.BuildMatrix();
-            }
-
             // if local transformations are dirty or parent transformations are out-of-date, update world transformations
             if (_isDirty || NeedUpdateDueToParentChange())
             {
                 // if we got parent, apply its transformations
-                if (_parent != null)
+                if (parentNode != null)
                 {
                     // if parent need update, update it first
-                    if (_parent._isDirty)
+                    if (parentNode._isDirty)
                     {
-                        _parent.UpdateTransformations();
+                        parentNode.UpdateTransformations();
                     }
 
                     // recalc world transform
-                    _worldTransform = _localTransform * _parent._worldTransform;
-                    _parentLastTransformVersion = _parent._transformVersion;
+                    _worldTransform = _localTransform * parentNode._worldTransform;
+                    _parentLastTransformVersion = parentNode.TransformVersion;
                 }
                 // if not, world transformations are the same as local, and reset parent last transformations version
                 else
@@ -366,5 +373,7 @@ namespace SceneGraph
         {
             get { return _childEntities.Count != 0; }
         }
+
+
     }
 }

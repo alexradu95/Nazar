@@ -1,6 +1,6 @@
 ﻿using StereoKit;
 
-namespace SceneGraph
+namespace SceneGraph.Interfaces
 {
     /// <summary>
     /// A basic renderable entity.
