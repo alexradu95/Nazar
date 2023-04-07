@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 namespace SceneGraph.Interfaces
 {
-    public interface IHierarchy
+    public interface IEntityContainer
     {
+        /// <summary>
+        /// Child entities under this node.
+        /// </summary>
+        List<IEntity> Entities { get; }
+
         void AddEntity(IEntity entity);
         void RemoveEntity(IEntity entity);
-        void AddChildNode(Node node);
-        void RemoveChildNode(Node node);
-        Node FindChildNode(string identifier, bool searchInChildren);
-        void RemoveFromParent();
     }
 }

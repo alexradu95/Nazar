@@ -41,4 +41,8 @@
 		<PackageReference Include="StereoKit" Version="0.3.7-preview.9" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\SceneGraph\SceneGraph.csproj" />
+	</ItemGroup>
+
 </Project>

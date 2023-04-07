@@ -2,20 +2,17 @@
 
 namespace SceneGraph.Interfaces
 {
-    public interface INode : IHierarchy, ITransform, INodeEvents
+    public interface INode
     {
 
-        IHierarchy Hierarchy { get; }
+        INodeChildren Children { get; }
         ITransform Transform { get;}
         INodeEvents Events { get; }
 
-        bool Visible { get; set; }
-        string Identifier { get; set; }
-        object UserData { get; set; }
+        bool Enabled { get; set; }
+        Guid Id { get; set; }
         Node Parent { get; }
         void Draw();
         void ForceUpdate(bool recursive = true);
-        bool Empty { get; }
-        bool HaveEntities { get; }
     }
 }
