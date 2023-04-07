@@ -1,11 +1,7 @@
-﻿//-----------------------------------------------------------------------------
-// A node is the basic container in the scene graph. Its basically a point in
-// transformations that can contain child nodes (and inherit transformations), 
-// and contain renderable entities to draw inside.
-//-----------------------------------------------------------------------------
+﻿using SceneGraph;
 using StereoKit;
 
-namespace SceneGraph
+namespace MonoGameSceneGraph
 {
     /// <summary>
     /// A callback function you can register on different node-related events.
@@ -14,17 +10,24 @@ namespace SceneGraph
     public delegate void NodeEventCallback(Node node);
 
     /// <summary>
-    /// A node with transformations, you can attach renderable entities to it, or append
-    /// child nodes to inherit transformations.
+    /// A node with transformations, you can attach renderable entities to it, or append child nodes to inherit transformations.
     /// </summary>
     public class Node
     {
+        protected Node _parentNode = null;
+        public Node ParentNode
+        {
+            get { return _parentNode; }
+            set
+            {
+                _parentNode = value;
+                // set our parents last transformations version to make sure we'll update world transformations next frame.
+                _parentLastTransformVersion = value != null ? value._transformVersion - 1 : 1;
+            }
+        }
 
-
-        /// <summary>
-        /// Parent node.
-        /// </summary>
-        protected Node _parent = null;
+        protected List<Node> _childNodes = new();
+        protected List<IEntity> _childEntities = new();
 
         /// <summary>
         /// Callback that triggers every time a node updates its matrix.
@@ -33,19 +36,14 @@ namespace SceneGraph
 
         /// <summary>
         /// Callback that triggers every time a node is rendered.
-        /// Note: nodes that are culled out should not trigger this.
         /// </summary>
         public static NodeEventCallback OnDraw;
 
-        /// <summary>
-        /// Node's transformations.
-        /// </summary>
-        protected Pose _pose = Pose.Identity;
 
         /// <summary>
         /// Is this node currently visible?
         /// </summary>
-        public virtual bool Visible { get; set; }
+        public virtual bool Visible { get; set; } = true;
 
         /// <summary>
         /// Optional identifier we can give to nodes.
@@ -66,16 +64,17 @@ namespace SceneGraph
         /// World transformations matrix, eg the result of the local transformations multiplied with parent transformations.
         /// </summary>
         protected Matrix _worldTransform = Matrix.Identity;
-
         /// <summary>
-        /// Child entities under this node.
+        /// Return world transformations matrix (note: will recalculate if needed).
         /// </summary>
-        protected List<Node> _childNodes = new List<Node>();
-
-        /// <summary>
-        /// Child entities under this node.
-        /// </summary>
-        protected List<IEntity> _childEntities = new List<IEntity>();
+        public Matrix WorldTransformations
+        {
+            get
+            {
+                UpdateTransformations();
+                return _worldTransform;
+            }
+        }
 
         /// <summary>
         /// Turns true when the transformations of this node changes.
@@ -95,24 +94,11 @@ namespace SceneGraph
         protected uint _parentLastTransformVersion = 0;
 
         /// <summary>
-        /// Get parent node.
-        /// </summary>
-        public Node Parent { get { return _parent; } }
-
-        /// <summary>
         /// Transformation version is a special identifier that changes whenever the world transformations
         /// of this node changes. Its not necessarily a sequence, but if you check this number for changes every
         /// frame its a good indication of transformation change.
         /// </summary>
         public uint TransformVersion { get { return _transformVersion; } }
-
-        /// <summary>
-        /// Create the new node.
-        /// </summary>
-        public Node()
-        {
-            Visible = true;
-        }
 
         /// <summary>
         /// Clone this scene node.
@@ -121,7 +107,7 @@ namespace SceneGraph
         public virtual Node Clone()
         {
             Node ret = new Node();
-            ret._pose = _pose.ToMatrix().Pose;
+            ret._localTransform = _localTransform;
             ret.Visible = Visible;
             return ret;
         }
@@ -201,9 +187,9 @@ namespace SceneGraph
         public void AddChildNode(Node node)
         {
             // node already got a parent?
-            if (node._parent != null)
+            if (node._parentNode != null)
             {
-                throw new Exception("Can't add a node that already have a parent.");
+                throw new System.Exception("Can't add a node that already have a parent.");
             }
 
             // add node to children list
@@ -221,9 +207,9 @@ namespace SceneGraph
         public void RemoveChildNode(Node node)
         {
             // make sure the node is a child of this node
-            if (node._parent != this)
+            if (node._parentNode != this)
             {
-                throw new Exception("Can't remove a node that don't belong to this parent.");
+                throw new System.Exception("Can't remove a node that don't belong to this parent.");
             }
 
             // remove node from children list
@@ -271,13 +257,13 @@ namespace SceneGraph
         public void RemoveFromParent()
         {
             // don't have a parent?
-            if (_parent == null)
+            if (_parentNode == null)
             {
-                throw new Exception("Can't remove an orphan node from parent.");
+                throw new System.Exception("Can't remove an orphan node from parent.");
             }
 
             // remove from parent
-            _parent.RemoveChildNode(this);
+            _parentNode.RemoveChildNode(this);
         }
 
         /// <summary>
@@ -292,10 +278,7 @@ namespace SceneGraph
             OnTransformationsUpdate?.Invoke(this);
 
             // notify parent
-            if (_parent != null)
-            {
-                _parent.OnChildWorldMatrixChange(this);
-            }
+            _parentNode?.OnChildWorldMatrixChange(this);
         }
 
         /// <summary>
@@ -313,11 +296,7 @@ namespace SceneGraph
         /// <param name="newParent">New parent node to set, or null for no parent.</param>
         protected virtual void SetParent(Node newParent)
         {
-            // set parent
-            _parent = newParent;
 
-            // set our parents last transformations version to make sure we'll update world transformations next frame.
-            _parentLastTransformVersion = newParent != null ? newParent._transformVersion - 1 : 1;
         }
 
         /// <summary>
@@ -327,13 +306,13 @@ namespace SceneGraph
         {
             // no parent? if parent last transform version is not 0, it means we had a parent but now we don't. 
             // still require update.
-            if (_parent == null)
+            if (_parentNode == null)
             {
                 return _parentLastTransformVersion != 0;
             }
 
             // check if parent is dirty, or if our last parent transform version mismatch parent current transform version
-            return _parent._isDirty || _parentLastTransformVersion != _parent._transformVersion;
+            return (_parentNode._isDirty || _parentLastTransformVersion != _parentNode._transformVersion);
         }
 
         /// <summary>
@@ -342,27 +321,21 @@ namespace SceneGraph
         /// </summary>
         protected virtual void UpdateTransformations()
         {
-            // if local transformations are dirty, we need to update them
-            if (_isDirty)
-            {
-                _localTransform = _pose.ToMatrix();
-            }
-
             // if local transformations are dirty or parent transformations are out-of-date, update world transformations
             if (_isDirty || NeedUpdateDueToParentChange())
             {
                 // if we got parent, apply its transformations
-                if (_parent != null)
+                if (_parentNode != null)
                 {
                     // if parent need update, update it first
-                    if (_parent._isDirty)
+                    if (_parentNode._isDirty)
                     {
-                        _parent.UpdateTransformations();
+                        _parentNode.UpdateTransformations();
                     }
 
                     // recalc world transform
-                    _worldTransform = _localTransform * _parent._worldTransform;
-                    _parentLastTransformVersion = _parent._transformVersion;
+                    _worldTransform = _localTransform * _parentNode._worldTransform;
+                    _parentLastTransformVersion = _parentNode._transformVersion;
                 }
                 // if not, world transformations are the same as local, and reset parent last transformations version
                 else
@@ -388,54 +361,17 @@ namespace SceneGraph
         }
 
         /// <summary>
-        /// Return world transformations matrix (note: will recalculate if needed).
-        /// </summary>
-        public Matrix WorldTransformations
-        {
-            get { UpdateTransformations(); return _worldTransform; }
-        }
-
-        /// <summary>
         /// Get position in world space.
         /// </summary>
-        /// <remarks>Naive implementation using world matrix decompose. For better performance, override this with your own cached version.</remarks>
-        public virtual Vec3 WorldPosition
-        {
-            get
-            {
-                //Vector3 pos; Vector3 scale; Quaternion rot;
-                //WorldTransformations.Decompose(out scale, out rot, out pos);
-                return WorldTransformations.Translation;
-            }
-        }
-
+        public virtual Vec3 WorldPosition => WorldTransformations.Translation;
         /// <summary>
-        /// Get Rotastion in world space.
+        /// Get Rotation in world space.
         /// </summary>
-        /// <remarks>Naive implementation using world matrix decompose. For better performance, override this with your own cached version.</remarks>
-        public virtual Quat WorldRotation
-        {
-            get
-            {
-                Vec3 pos; Vec3 scale; Quat rot;
-                WorldTransformations.Decompose(out pos, out rot, out scale);
-                return rot;
-            }
-        }
-
+        public virtual Quat WorldRotation => WorldTransformations.Rotation;
         /// <summary>
         /// Get Scale in world space.
         /// </summary>
-        /// <remarks>Naive implementation using world matrix decompose. For better performance, override this with your own cached version.</remarks>
-        public virtual Vec3 WorldScale
-        {
-            get
-            {
-                Vec3 pos; Vec3 scale; Quat rot;
-                WorldTransformations.Decompose(out scale, out rot, out pos);
-                return scale;
-            }
-        }
+        public virtual Vec3 WorldScale => WorldTransformations.Scale;
 
         /// <summary>
         /// Force update transformations for this node and its children.
@@ -467,19 +403,34 @@ namespace SceneGraph
         /// </summary>
         public void ResetTransformations()
         {
-            _pose = Pose.Identity;
+            _localTransform = Matrix.Identity;
             OnTransformationsSet();
         }
-
-
 
         /// <summary>
         /// Get / Set node local position.
         /// </summary>
         public Vec3 Position
         {
-            get { return _pose.position; }
-            set { if (_pose.position.Equals(value)) OnTransformationsSet(); _pose.position = value; }
+            get { return _localTransform.Translation; }
+            set { if (!_localTransform.Translation.Equals(value)) OnTransformationsSet(); _localTransform.Translation = value; }
+        }
+
+        /// <summary>
+        /// Get / Set node local scale.
+        /// </summary>
+        public Vec3 Scale
+        {
+            get { return _localTransform.Scale; }
+            set
+            {
+                if (!_localTransform.Scale.Equals(value))
+                {
+                    OnTransformationsSet();
+                    _localTransform = _localTransform.Pose.ToMatrix(value);
+                }
+
+            }
         }
 
         /// <summary>
@@ -487,10 +438,19 @@ namespace SceneGraph
         /// </summary>
         public Quat Rotation
         {
-            get { return _pose.orientation; }
-            set { if (_pose.orientation.Equals(value)) OnTransformationsSet(); _pose.orientation = value; }
-        }
+            get { return _localTransform.Rotation; }
+            set
+            {
+                if (!_localTransform.Rotation.Equals(value))
+                {
+                    OnTransformationsSet();
+                    var updatedPoseWithRotation = _localTransform.Pose;
+                    updatedPoseWithRotation.orientation = value;
+                    _localTransform = updatedPoseWithRotation.ToMatrix();
 
+                }
+            }
+        }
 
         /// <summary>
         /// Move position by vector.
@@ -498,7 +458,7 @@ namespace SceneGraph
         /// <param name="moveBy">Vector to translate by.</param>
         public void Translate(Vec3 moveBy)
         {
-            _pose.position += moveBy;
+            _localTransform.Translation += moveBy;
             OnTransformationsSet();
         }
 
@@ -508,22 +468,6 @@ namespace SceneGraph
         /// <param name="node">The child node that updated.</param>
         public virtual void OnChildWorldMatrixChange(Node node)
         {
-        }
-
-        /// <summary>
-        /// Return true if this node is empty.
-        /// </summary>
-        public bool Empty
-        {
-            get { return _childEntities.Count == 0 && _childNodes.Count == 0; }
-        }
-
-        /// <summary>
-        /// Get if this node have any entities in it.
-        /// </summary>
-        public bool HaveEntities
-        {
-            get { return _childEntities.Count != 0; }
         }
     }
 }

@@ -6,6 +6,7 @@
 //-----------------------------------------------------------------------------
 #endregion
 
+using MonoGameSceneGraph;
 using SceneGraph;
 using StereoKit;
 
