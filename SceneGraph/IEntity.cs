@@ -1,14 +1,4 @@
-﻿#region File Description
-//-----------------------------------------------------------------------------
-// An entity is the basic renderable entity, eg something you can draw.
-// Entities don't have transformations of their own; instead, you put them inside
-// nodes which handle matrices and transformations for them.
-//-----------------------------------------------------------------------------
-#endregion
-
-using MonoGameSceneGraph;
-using SceneGraph;
-using StereoKit;
+﻿using StereoKit;
 
 namespace SceneGraph
 {
