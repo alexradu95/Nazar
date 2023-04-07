@@ -61,12 +61,14 @@ public class Node
     /// </summary>
     public string Identifier;
 
-    private Node parentNode;
+
 
     /// <summary>
     ///     Optional user data we can attach to nodes.
     /// </summary>
     public object UserData;
+
+    private Node parentNode;
 
     public Node ParentNode
     {
@@ -117,21 +119,6 @@ public class Node
     }
 
     /// <summary>
-    ///     Get position in world space.
-    /// </summary>
-    public virtual Vec3 WorldPosition => WorldTransformations.Translation;
-
-    /// <summary>
-    ///     Get Rotation in world space.
-    /// </summary>
-    public virtual Quat WorldRotation => WorldTransformations.Rotation;
-
-    /// <summary>
-    ///     Get Scale in world space.
-    /// </summary>
-    public virtual Vec3 WorldScale => WorldTransformations.Scale;
-
-    /// <summary>
     ///     Get / Set node local position.
     /// </summary>
     public Vec3 Position
@@ -152,11 +139,9 @@ public class Node
         get => _localTransform.Scale;
         set
         {
-            if (!_localTransform.Scale.Equals(value))
-            {
-                OnTransformationsSet();
-                _localTransform = _localTransform.Pose.ToMatrix(value);
-            }
+            if (_localTransform.Scale.Equals(value)) return;
+            OnTransformationsSet();
+            _localTransform = _localTransform.Pose.ToMatrix(value);
         }
     }
 
@@ -168,13 +153,12 @@ public class Node
         get => _localTransform.Rotation;
         set
         {
-            if (!_localTransform.Rotation.Equals(value))
-            {
-                OnTransformationsSet();
-                Pose updatedPoseWithRotation = _localTransform.Pose;
-                updatedPoseWithRotation.orientation = value;
-                _localTransform = updatedPoseWithRotation.ToMatrix();
-            }
+            if (_localTransform.Rotation.Equals(value)) return;
+
+            OnTransformationsSet();
+            Pose updatedPoseWithRotation = _localTransform.Pose;
+            updatedPoseWithRotation.orientation = value;
+            _localTransform = updatedPoseWithRotation.ToMatrix();
         }
     }
 
@@ -256,7 +240,7 @@ public class Node
     public void AddChildNode(Node node)
     {
         // node already got a parent?
-        if (node.parentNode != null) throw new Exception("Can't add a node that already have a parent.");
+        if (node.ParentNode != null) throw new Exception("Can't add a node that already have a parent.");
 
         // add node to children list
         _childNodes.Add(node);
@@ -273,7 +257,7 @@ public class Node
     public void RemoveChildNode(Node node)
     {
         // make sure the node is a child of this node
-        if (node.parentNode != this) throw new Exception("Can't remove a node that don't belong to this parent.");
+        if (node.ParentNode != this) throw new Exception("Can't remove a node that don't belong to this parent.");
 
         // remove node from children list
         _childNodes.Remove(node);
@@ -287,7 +271,7 @@ public class Node
     ///     Find and return first child node by identifier.
     /// </summary>
     /// <param name="identifier">Node identifier to search for.</param>
-    /// <param name="searchInChildren">If true, will also search recurisvely in children.</param>
+    /// <param name="searchInChildren">If true, will also search recursively in children.</param>
     /// <returns>Node with given identifier or null if not found.</returns>
     public Node FindChildNode(string identifier, bool searchInChildren = true)
     {
@@ -332,7 +316,7 @@ public class Node
         OnTransformationsUpdate?.Invoke(this);
 
         // notify parent
-        parentNode?.OnChildWorldMatrixChange(this);
+        ParentNode?.OnChildWorldMatrixChange(this);
     }
 
     /// <summary>
@@ -359,10 +343,10 @@ public class Node
     {
         // no parent? if parent last transform version is not 0, it means we had a parent but now we don't. 
         // still require update.
-        if (parentNode == null) return _parentLastTransformVersion != 0;
+        if (ParentNode == null) return _parentLastTransformVersion != 0;
 
         // check if parent is dirty, or if our last parent transform version mismatch parent current transform version
-        return parentNode._isDirty || _parentLastTransformVersion != parentNode._transformVersion;
+        return ParentNode._isDirty || _parentLastTransformVersion != ParentNode._transformVersion;
     }
 
     /// <summary>
@@ -375,14 +359,14 @@ public class Node
         if (_isDirty || NeedUpdateDueToParentChange())
         {
             // if we got parent, apply its transformations
-            if (parentNode != null)
+            if (ParentNode != null)
             {
                 // if parent need update, update it first
-                if (parentNode._isDirty) parentNode.UpdateTransformations();
+                if (ParentNode._isDirty) ParentNode.UpdateTransformations();
 
                 // recalc world transform
-                _worldTransform = _localTransform * parentNode._worldTransform;
-                _parentLastTransformVersion = parentNode._transformVersion;
+                _worldTransform = _localTransform * ParentNode._worldTransform;
+                _parentLastTransformVersion = ParentNode._transformVersion;
             }
             // if not, world transformations are the same as local, and reset parent last transformations version
             else
