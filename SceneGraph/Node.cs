@@ -15,6 +15,9 @@ public delegate void NodeEventCallback(Node node);
 /// </summary>
 public class Node
 {
+
+    private Transform transform = new();
+
     /// <summary>
     ///     Callback that triggers every time a node updates its matrix.
     /// </summary>
@@ -35,11 +38,6 @@ public class Node
     protected bool _isDirty = true;
 
     /// <summary>
-    ///     Local transformations matrix, eg the result of the current local transformations.
-    /// </summary>
-    protected Matrix _localTransform = Matrix.Identity;
-
-    /// <summary>
     ///     The last transformations version we got from our parent.
     /// </summary>
     protected uint _parentLastTransformVersion;
@@ -50,11 +48,6 @@ public class Node
     ///     time this node was rendered, and if so, we re-apply parent updated transformations.
     /// </summary>
     protected uint _transformVersion;
-
-    /// <summary>
-    ///     World transformations matrix, eg the result of the local transformations multiplied with parent transformations.
-    /// </summary>
-    protected Matrix _worldTransform = Matrix.Identity;
 
     /// <summary>
     ///     Optional identifier we can give to nodes.
@@ -95,7 +88,20 @@ public class Node
         get
         {
             UpdateTransformations();
-            return _worldTransform;
+            return transform.worldTransform;
+        }
+    }
+
+
+    /// <summary>
+    ///     Return local transformations matrix (note: will recalculate if needed).
+    /// </summary>
+    public Matrix LocalTransformations
+    {
+        get
+        {
+            UpdateTransformations();
+            return transform.localTransform;
         }
     }
 
@@ -106,28 +112,18 @@ public class Node
     /// </summary>
     public uint TransformVersion => _transformVersion;
 
-    /// <summary>
-    ///     Return local transformations matrix (note: will recalculate if needed).
-    /// </summary>
-    public Matrix LocalTransformations
-    {
-        get
-        {
-            UpdateTransformations();
-            return _localTransform;
-        }
-    }
+
 
     /// <summary>
     ///     Get / Set node local position.
     /// </summary>
     public Vec3 Position
     {
-        get => _localTransform.Translation;
+        get => transform.localTransform.Translation;
         set
         {
-            if (!_localTransform.Translation.Equals(value)) OnTransformationsSet();
-            _localTransform.Translation = value;
+            if (!transform.localTransform.Translation.Equals(value)) OnTransformationsSet();
+            transform.localTransform.Translation = value;
         }
     }
 
@@ -136,12 +132,12 @@ public class Node
     /// </summary>
     public Vec3 Scale
     {
-        get => _localTransform.Scale;
+        get => transform.localTransform.Scale;
         set
         {
-            if (_localTransform.Scale.Equals(value)) return;
+            if (transform.localTransform.Scale.Equals(value)) return;
             OnTransformationsSet();
-            _localTransform = _localTransform.Pose.ToMatrix(value);
+            transform.localTransform = transform.localTransform.Pose.ToMatrix(value);
         }
     }
 
@@ -150,15 +146,15 @@ public class Node
     /// </summary>
     public Quat Rotation
     {
-        get => _localTransform.Rotation;
+        get => transform.localTransform.Rotation;
         set
         {
-            if (_localTransform.Rotation.Equals(value)) return;
+            if (transform.localTransform.Rotation.Equals(value)) return;
 
             OnTransformationsSet();
-            Pose updatedPoseWithRotation = _localTransform.Pose;
+            Pose updatedPoseWithRotation = transform.localTransform.Pose;
             updatedPoseWithRotation.orientation = value;
-            _localTransform = updatedPoseWithRotation.ToMatrix();
+            transform.localTransform = updatedPoseWithRotation.ToMatrix();
         }
     }
 
@@ -169,7 +165,7 @@ public class Node
     public virtual Node Clone()
     {
         Node ret = new();
-        ret._localTransform = _localTransform;
+        ret.transform.localTransform = transform.localTransform;
         ret.Visible = Visible;
         return ret;
     }
@@ -192,7 +188,7 @@ public class Node
         OnDraw?.Invoke(this);
 
         // draw all child entities
-        foreach (IEntity entity in _childEntities) entity.Draw(this, _localTransform, _worldTransform);
+        foreach (IEntity entity in _childEntities) entity.Draw(this, transform.localTransform, transform.worldTransform);
     }
 
     /// <summary>
@@ -365,13 +361,13 @@ public class Node
                 if (ParentNode._isDirty) ParentNode.UpdateTransformations();
 
                 // recalc world transform
-                _worldTransform = _localTransform * ParentNode._worldTransform;
+                transform.worldTransform = transform.localTransform * ParentNode.transform.worldTransform;
                 _parentLastTransformVersion = ParentNode._transformVersion;
             }
             // if not, world transformations are the same as local, and reset parent last transformations version
             else
             {
-                _worldTransform = _localTransform;
+                transform.worldTransform = transform.localTransform;
                 _parentLastTransformVersion = 0;
             }
 
@@ -406,7 +402,7 @@ public class Node
     /// </summary>
     public void ResetTransformations()
     {
-        _localTransform = Matrix.Identity;
+        transform.localTransform = Matrix.Identity;
         OnTransformationsSet();
     }
 
@@ -416,7 +412,7 @@ public class Node
     /// <param name="moveBy">Vector to translate by.</param>
     public void Translate(Vec3 moveBy)
     {
-        _localTransform.Translation += moveBy;
+        transform.localTransform.Translation += moveBy;
         OnTransformationsSet();
     }
 
