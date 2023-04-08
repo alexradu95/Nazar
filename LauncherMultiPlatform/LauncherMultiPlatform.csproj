@@ -42,7 +42,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\SceneGraph\Framework.csproj" />
+	  <ProjectReference Include="..\Framework\Framework.csproj" />
 	</ItemGroup>
 
 </Project>
