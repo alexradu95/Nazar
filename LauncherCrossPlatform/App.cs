@@ -1,13 +1,15 @@
-﻿using SceneGraph;
-using SceneGraph.Behaviours;
-using SceneGraph.CoreComponents;
+﻿using Framework.CoreSteppers.Passthrough;
+using Framework.SceneGraph;
 using StereoKit;
+using System;
 
 namespace LauncherCrossPlatform
 {
     public class App
     {
-        readonly Node rootNode;
+        public static Node RootNode = new();
+
+        public static PassthroughManager passthrough;
 
         public SKSettings Settings => new SKSettings
         {
@@ -18,25 +20,28 @@ namespace LauncherCrossPlatform
 
         public App()
         {
-            rootNode = new Node( null, null, null, null);
-            rootNode.Entities.AddEntity(new CubeMeshEntity());
-
-            var newNode = new Node(null, null, null, null);
-            newNode.Entities.AddEntity(new SphereMeshEntity());
-
-            rootNode.Children.AddChildNode(newNode);
-
-            rootNode.Children.RemoveChildNode(newNode);
+            passthrough = SK.AddStepper<PassthroughManager>();
         }
 
         public void Init()
         {
+            RegisterSteppers();
+            RegisterNodes();
+        }
 
+        private void RegisterNodes()
+        {
+
+        }
+
+        private void RegisterSteppers()
+        {
+            
         }
 
         public void Step()
         {
-            rootNode.Draw();
+            RootNode.Draw();
         }
     }
 }
