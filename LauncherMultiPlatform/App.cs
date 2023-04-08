@@ -1,10 +1,9 @@
-﻿using Framework.Application.Interfaces;
+﻿using Framework;
+using Framework.Application.Interfaces;
 using Framework.Steppers.Passthrough;
 using Framework.Steppers.StereoKit.Framework;
-using Nazar.Framework;
-using Nazar.Framework.Stepperss;
 using StereoKit;
-using System;
+using StereoKit.Framework;
 
 namespace LauncherMultiPlatform
 {
@@ -25,20 +24,20 @@ namespace LauncherMultiPlatform
         {
             StepperManager.RegisterStepper<PassthroughFBExt>();
             StepperManager.RegisterStepper<RenderCamera>();
+
         }
 
         // Called after SK.Initialize is triggered
         public void Init()
         {
-
+            StepperManager.RegisterStepper(HandMenuGenerator.BuildHandMenu());
         }
 
         // This Step method will be called every frame of the application
         public void Step()
         {
-            
-        }
 
+        }
 
     }
 }
