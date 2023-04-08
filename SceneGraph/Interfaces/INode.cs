@@ -11,7 +11,7 @@ namespace SceneGraph.Interfaces
 
         bool Enabled { get; set; }
         Guid Id { get; set; }
-        Node Parent { get; }
+        INode Parent { get; }
         void Draw();
         void ForceUpdate(bool recursive = true);
     }
