@@ -10,4 +10,8 @@
     <PackageReference Include="StereoKit" Version="0.3.7-preview.9" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Assets\" />
+  </ItemGroup>
+
 </Project>

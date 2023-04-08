@@ -1,6 +1,10 @@
 ﻿using Framework.Application.Interfaces;
+using Framework.Steppers.Passthrough;
+using Framework.Steppers.StereoKit.Framework;
+using Nazar.Framework;
+using Nazar.Framework.Stepperss;
 using StereoKit;
-using StereoKit.Framework;
+using System;
 
 namespace LauncherMultiPlatform
 {
@@ -16,20 +20,25 @@ namespace LauncherMultiPlatform
         public IStepperManager StepperManager => new StepperManager();
         public ISceneGraph SceneGraphManager => new SceneGraphManager();
 
-
-        public App()
+        // Called before SK.Initialize is triggered
+        public void PreInit()
         {
             StepperManager.RegisterStepper<PassthroughFBExt>();
+            StepperManager.RegisterStepper<RenderCamera>();
         }
 
+        // Called after SK.Initialize is triggered
         public void Init()
         {
 
         }
 
+        // This Step method will be called every frame of the application
         public void Step()
         {
             
         }
+
+
     }
 }

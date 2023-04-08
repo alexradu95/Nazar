@@ -4,11 +4,13 @@
 // To work on Quest+Link, you may need to enable beta features in the Oculus
 // app's settings.
 
-using Framework.CoreSteppers.Passthrough.OpenXRBindings;
-using Framework.CoreSteppers.Passthrough.OpenXRBindings.Enums;
-using Framework.CoreSteppers.Passthrough.OpenXRBindings.Structs;
+using Framework.Steppers.Passthrough.OpenXRBindings;
+using Framework.Steppers.Passthrough.OpenXRBindings.Enums;
+using Framework.Steppers.Passthrough.OpenXRBindings.Structs;
+using StereoKit;
+using StereoKit.Framework;
 
-namespace StereoKit.Framework
+namespace Framework.Steppers.Passthrough
 {
     public class PassthroughFBExt : IStepper
     {

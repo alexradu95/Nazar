@@ -1,9 +1,9 @@
-﻿using Framework.CoreSteppers.Passthrough.OpenXRBindings.Enums;
-using Framework.CoreSteppers.Passthrough.OpenXRBindings.Structs;
+﻿using Framework.Steppers.Passthrough.OpenXRBindings.Enums;
+using Framework.Steppers.Passthrough.OpenXRBindings.Structs;
 using StereoKit;
 using System.Runtime.InteropServices;
 
-namespace Framework.CoreSteppers.Passthrough.OpenXRBindings;
+namespace Framework.Steppers.Passthrough.OpenXRBindings;
 
 // The PassthroughOpenXRBindings class provides bindings for the
 // OpenXR extension which enables integration of passthrough camera functionality

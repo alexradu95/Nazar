@@ -4,10 +4,10 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using Framework.CoreSteppers.Passthrough.OpenXRBindings.Enums;
-using static Framework.CoreSteppers.Passthrough.OpenXRBindings.PassthroughOpenXRBindings;
+using Framework.Steppers.Passthrough.OpenXRBindings.Enums;
+using static Framework.Steppers.Passthrough.OpenXRBindings.PassthroughOpenXRBindings;
 
-namespace Framework.CoreSteppers.Passthrough.OpenXRBindings.Structs
+namespace Framework.Steppers.Passthrough.OpenXRBindings.Structs
 {
     [StructLayout(LayoutKind.Sequential)]
     internal struct XrCompositionLayerPassthroughFB

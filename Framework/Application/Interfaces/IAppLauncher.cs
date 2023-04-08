@@ -9,5 +9,9 @@ namespace Framework.Application.Interfaces
         public ISceneGraph SceneGraphManager { get; }
 
         public IStepperManager StepperManager { get; }
+
+        void PreInit();
+        void Init();
+        void Step();
     }
 }

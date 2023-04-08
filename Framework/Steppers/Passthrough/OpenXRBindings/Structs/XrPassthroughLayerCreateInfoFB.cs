@@ -1,13 +1,13 @@
-﻿using Framework.CoreSteppers.Passthrough.OpenXRBindings.Enums;
+﻿using Framework.Steppers.Passthrough.OpenXRBindings.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using static Framework.CoreSteppers.Passthrough.OpenXRBindings.PassthroughOpenXRBindings;
+using static Framework.Steppers.Passthrough.OpenXRBindings.PassthroughOpenXRBindings;
 
-namespace Framework.CoreSteppers.Passthrough.OpenXRBindings.Structs
+namespace Framework.Steppers.Passthrough.OpenXRBindings.Structs
 {
     // https://registry.khronos.org/OpenXR/specs/1.0/man/html/XrPassthroughLayerCreateInfoFB.html
     [StructLayout(LayoutKind.Sequential)]
