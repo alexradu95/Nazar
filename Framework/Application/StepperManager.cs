@@ -12,10 +12,14 @@ namespace LauncherMultiPlatform
 
         public ReadOnlyCollection<IStepper> SteppersList => registeredSteppers.AsReadOnly();
 
-
         public void RegisterStepper<T>() where T : IStepper
         {
             registeredSteppers.Add(SK.AddStepper<T>());
+        }
+
+        public void RegisterStepper<T>(T stepper) where T : IStepper
+        {
+            registeredSteppers.Add(SK.AddStepper(stepper));
         }
     }
 }
