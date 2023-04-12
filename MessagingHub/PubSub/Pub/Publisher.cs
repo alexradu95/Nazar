@@ -1,20 +1,20 @@
 ﻿using PubSubHub.Hub;
 using PubSubHub.Pub.Interfaces;
 
-namespace PubSub.Pub;
+namespace PubSubHub.Pub;
 
 /// <summary>
 /// The Publisher class is an implementation of the IPublisher interface, which provides functionality for sending events to all subscribers in the PubSub pattern.
 /// </summary>
 public class Publisher : IPublisher
 {
-    private readonly Hub hub;
+    private readonly MessagingHub hub;
 
     /// <summary>
     /// Initializes a new instance of the Publisher class with the specified Hub instance.
     /// </summary>
     /// <param name="hub">The Hub instance used for managing subscribers and handlers.</param>
-    public Publisher(Hub hub)
+    public Publisher(MessagingHub hub)
     {
         this.hub = hub;
     }

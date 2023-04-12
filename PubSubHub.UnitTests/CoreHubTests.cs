@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PubSubHub.Hub;
 
 namespace PubSub.Tests
 {
     [TestClass]
     public class CoreHubTests
     {
-        private Hub _hub;
+        private MessagingHub _hub;
         private object _subscriber;
         private object _condemnedSubscriber;
         private object _preservedSubscriber;
@@ -15,7 +16,7 @@ namespace PubSub.Tests
         [TestInitialize]
         public void Setup()
         {
-            _hub = new Hub();
+            _hub = new MessagingHub();
             _subscriber = new object();
             _condemnedSubscriber = new object();
             _preservedSubscriber = new object();
@@ -83,7 +84,7 @@ namespace PubSub.Tests
             _hub.Publish(default(string));
 
             // assert
-            Assert.AreEqual(1, _hub._handlers.Count);
+            Assert.AreEqual(1, _hub._handlerManager._handlers.Count);
             GC.KeepAlive(liveSubscriber);
         }
 
@@ -97,7 +98,7 @@ namespace PubSub.Tests
             _hub.Subscribe(_subscriber, action);
 
             // assert
-            var h = _hub._handlers.First();
+            var h = _hub._handlerManager._handlers.First();
             Assert.AreEqual(_subscriber, h.Sender.Target);
             Assert.AreEqual(action, h.Action);
             Assert.AreEqual(action.Method.GetParameters().First().ParameterType, h.Type);
@@ -112,8 +113,8 @@ namespace PubSub.Tests
             _hub.Unsubscribe(_subscriber);
 
             // assert
-            Assert.IsTrue(_hub._handlers.Any(a => a.Sender.Target == _preservedSubscriber));
-            Assert.IsFalse(_hub._handlers.Any(a => a.Sender.Target == _subscriber));
+            Assert.IsTrue(_hub._handlerManager._handlers.Any(a => a.Sender.Target == _preservedSubscriber));
+            Assert.IsFalse(_hub._handlerManager._handlers.Any(a => a.Sender.Target == _subscriber));
         }
 
         [TestMethod]
@@ -128,7 +129,7 @@ namespace PubSub.Tests
             _hub.Unsubscribe<string>(_subscriber);
 
             // assert
-            Assert.IsFalse(_hub._handlers.Any(a => a.Sender.Target == _subscriber));
+            Assert.IsFalse(_hub._handlerManager._handlers.Any(a => a.Sender.Target == _subscriber));
         }
 
         [TestMethod]
@@ -143,7 +144,7 @@ namespace PubSub.Tests
             _hub.Unsubscribe(_subscriber, actionToDie);
 
             // assert
-            Assert.IsFalse(_hub._handlers.Any(a => a.Action.Equals(actionToDie)));
+            Assert.IsFalse(_hub._handlerManager._handlers.Any(a => a.Action.Equals(actionToDie)));
         }
 
         [TestMethod]
@@ -174,7 +175,7 @@ namespace PubSub.Tests
             _hub.Unsubscribe<string>(_subscriber);
 
             // assert
-            Assert.AreEqual(0, _hub._handlers.Count);
+            Assert.AreEqual(0, _hub._handlerManager._handlers.Count);
         }
 
         [TestMethod]
@@ -183,7 +184,7 @@ namespace PubSub.Tests
             // arrange
             var callCount = 0;
             var action = new Action<Event>(a => callCount++);
-            var myhub = new Hub();
+            var myhub = new MessagingHub();
 
             // this lies and subscribes to the static hub instead.
             myhub.Subscribe(new Action<Event>(a => callCount++));
@@ -218,7 +219,7 @@ namespace PubSub.Tests
             Assert.AreEqual(10, callCount);
 
             // unsubscribe to all
-            myhub.Unsubscribe();
+            myhub.Unsubscribe(myhub);
 
             // act
             myhub.Publish(new SpecialEvent());
@@ -248,7 +249,7 @@ namespace PubSub.Tests
 
         internal class Stuff
         {
-            public Stuff(Hub hub)
+            public Stuff(MessagingHub hub)
             {
                 hub.Subscribe(new Action<Event>(a => { }));
             }

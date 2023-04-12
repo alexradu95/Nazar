@@ -1,14 +1,14 @@
-﻿using PubSubHub.Sub.Interfaces;
-using PubSub.Subscriber;
-using PubSubHub.Hub;
+﻿using PubSubHub.Hub;
 using PubSubHubExample.StockMarketBasicExample.StockMarketModule;
+using PubSubHub.Sub.Interfaces;
+using PubSubHub.Sub;
 
 public class StockWatcher
 {
     private readonly ISubscriber _subscriber;
     private readonly HashSet<string> _symbols;
 
-    public StockWatcher(Hub hub, IEnumerable<string> symbols)
+    public StockWatcher(MessagingHub hub, IEnumerable<string> symbols)
     {
         _subscriber = new Subscriber(hub);
         _symbols = new HashSet<string>(symbols);

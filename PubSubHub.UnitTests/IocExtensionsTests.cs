@@ -1,5 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PubSubHub.PipelineFactory.PubSub;
+using PubSubHub.Pub.Interfaces;
+using PubSubHub.Sub.Interfaces;
 
 namespace PubSub.Tests
 {

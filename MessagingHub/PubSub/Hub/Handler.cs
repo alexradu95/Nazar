@@ -7,7 +7,7 @@ namespace PubSubHub.Hub;
 /// the action to execute, and the type of data the handler is interested in.
 /// </summary>
 
-internal class Handler
+public class Handler
 {
     /// <summary>
     /// Gets or sets the action to be executed when the handler is triggered. 

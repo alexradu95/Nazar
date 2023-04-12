@@ -1,20 +1,18 @@
-﻿using PubSub.Pub;
-using PubSub.Subscriber;
-using PubSubHub.Hub;
+﻿using PubSubHub.Hub;
+using PubSubHub.Pub;
 using PubSubHub.Pub.Interfaces;
+using PubSubHub.Sub;
 using PubSubHub.Sub.Interfaces;
 using PubSubHubExample.StockMarketBasicExample.NewsModule;
 using PubSubHubExample.StockMarketBasicExample.StockMarketModule;
-using System;
-using System.Collections.Generic;
 
 class Program
 {
     static void Main(string[] args)
     {
         // Initialize the publisher and subscriber instances
-        IPublisher publisher = new Publisher(Hub.Default);
-        ISubscriber subscriber = new Subscriber(Hub.Default);
+        IPublisher publisher = new Publisher(MessagingHub.Default);
+        ISubscriber subscriber = new Subscriber(MessagingHub.Default);
 
         // Create a list of stocks
         List<Stock> stocks = new List<Stock>
@@ -29,8 +27,8 @@ class Program
 
         // Create the random stock generator and stock watchers
         RandomStockGenerator stockGenerator = new RandomStockGenerator(stockMarket, stocks);
-        StockWatcher watcher1 = new StockWatcher(Hub.Default, new List<string> { "AAPL" });
-        StockWatcher watcher2 = new StockWatcher(Hub.Default, new List<string> { "GOOG" });
+        StockWatcher watcher1 = new(MessagingHub.Default, new List<string> { "AAPL" });
+        StockWatcher watcher2 = new(MessagingHub.Default, new List<string> { "GOOG" });
 
 
 

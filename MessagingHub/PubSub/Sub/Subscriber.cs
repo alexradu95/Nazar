@@ -2,20 +2,20 @@
 using PubSubHub.Hub;
 using PubSubHub.Sub.Interfaces;
 
-namespace PubSub.Subscriber
+namespace PubSubHub.Sub
 {
     /// <summary>
     /// The Subscriber class is an implementation of the ISubscriber interface, which provides functionality for listening to events published by the publisher in the PubSub pattern.
     /// </summary>
     public class Subscriber : ISubscriber
     {
-        private readonly Hub hub;
+        private readonly MessagingHub hub;
 
         /// <summary>
         /// Initializes a new instance of the Subscriber class.
         /// </summary>
         /// <param name="hub">The hub instance for managing handlers.</param>
-        public Subscriber(Hub hub)
+        public Subscriber(MessagingHub hub)
         {
             this.hub = hub;
         }

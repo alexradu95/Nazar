@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PubSubHub.Hub;
 
 namespace PubSub.Tests
 {
@@ -9,7 +10,7 @@ namespace PubSub.Tests
         [TestMethod]
         public void Exists_Static()
         {
-            var hub = new Hub();
+            var hub = new MessagingHub();
             var action = new Action<string>(a => { });
             hub.Subscribe(action);
 
@@ -25,7 +26,7 @@ namespace PubSub.Tests
         [TestMethod]
         public void NotExists_Static()
         {
-            var hub = new Hub();
+            var hub = new MessagingHub();
             var action = new Action<bool>(a => { });
             hub.Subscribe(action);
 
@@ -41,7 +42,7 @@ namespace PubSub.Tests
         [TestMethod]
         public void PublishExtensions()
         {
-            var hub = new Hub();
+            var hub = new MessagingHub();
             var callCount = 0;
 
             hub.Subscribe(new Action<Event>(a => callCount++));
@@ -59,7 +60,7 @@ namespace PubSub.Tests
         [TestMethod]
         public void UnsubscribeExtensions()
         {
-            var hub = new Hub();
+            var hub = new MessagingHub();
             var callCount = 0;
             var action = new Action<Event>(a => callCount++);
 
@@ -94,7 +95,7 @@ namespace PubSub.Tests
             Assert.AreEqual(10, callCount);
 
             // unsubscribe from all
-            hub.Unsubscribe();
+            hub.Unsubscribe(hub);
 
             // act
             hub.Publish<SpecialEvent>();

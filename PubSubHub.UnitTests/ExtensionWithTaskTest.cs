@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PubSubHub.Hub;
 
 namespace PubSub.Tests
 {
@@ -11,7 +12,7 @@ namespace PubSub.Tests
         [TestMethod]
         public void Subscribe_With_Action_And_Func_Publish_All()
         {
-            var hub = new Hub();
+            var hub = new MessagingHub();
             var callCount = 0;
 
             hub.Subscribe(new Action<Event>(a => callCount++));
@@ -36,7 +37,7 @@ namespace PubSub.Tests
         [TestMethod]
         public void Subscribe_With_Action_And_Func_Publish_One_As_Async()
         {
-            var hub = new Hub();
+            var hub = new MessagingHub();
             var callCount = 0;
 
             hub.Subscribe(new Action<Event>(a => callCount++));
@@ -61,7 +62,7 @@ namespace PubSub.Tests
         [TestMethod]
         public void Subscribe_With_Action_And_Func_Publish_All_As_Async()
         {
-            var hub = new Hub();
+            var hub = new MessagingHub();
             var callCount = 0;
 
             var action = new Action<Event>(a => callCount++);

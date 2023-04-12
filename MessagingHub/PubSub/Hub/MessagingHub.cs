@@ -7,15 +7,15 @@ namespace PubSubHub.Hub;
 /// Represents the main class for the PubSub pattern, providing methods for publishing and subscribing
 /// to events. This class uses a singleton pattern for a default instance, but can also be instantiated directly.
 /// </summary>
-public class Hub
+public class MessagingHub
 {
-    private readonly HandlerManager _handlerManager = new();
-    private static Hub _default;
+    public readonly HandlerManager _handlerManager = new();
+    private static MessagingHub _default;
 
     /// <summary>
     /// Gets the default Hub instance, which is created lazily on first access.
     /// </summary>
-    public static Hub Default => _default ??= new Hub();
+    public static MessagingHub Default => _default ??= new MessagingHub();
 
     /// <summary>
     /// Publishes an event of the specified data type, executing all subscribed handlers synchronously.

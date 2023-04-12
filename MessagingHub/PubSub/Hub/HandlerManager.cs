@@ -11,12 +11,12 @@ namespace PubSubHub.Hub
     /// <summary>
     /// The HandlerManager class is responsible for managing subscribers and their handlers in the PubSub pattern.
     /// </summary>
-    internal class HandlerManager
+    public class HandlerManager
     {
         /// <summary>
         /// A list to store all handlers.
         /// </summary>
-        private readonly List<Handler> _handlers = new();
+        public readonly List<Handler> _handlers = new();
 
         /// <summary>
         /// A locker object used for synchronization purposes while accessing the handlers list.
