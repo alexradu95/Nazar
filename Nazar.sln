@@ -5,8 +5,6 @@ VisualStudioVersion = 17.4.33403.182
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Framework", "Framework\Framework.csproj", "{05F5963B-86FF-4E91-BC57-AF86DA180889}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PubSubHub", "MessagingHub\PubSubHub\PubSubHub.csproj", "{C73D1486-C5C4-4BF0-AE0B-D0A214E2CCB9}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PubSubHub.Example", "MessagingHub\PubSubHub.Example\PubSubHub.Example.csproj", "{4365143E-11C7-46E7-9B9A-99324B04F28F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PubSubHub.UnitTests", "MessagingHub\PubSubHub.UnitTests\PubSubHub.UnitTests.csproj", "{EFBB1B9D-7F7E-4FAD-A4FE-26176E09AB38}"
@@ -25,10 +23,6 @@ Global
 		{05F5963B-86FF-4E91-BC57-AF86DA180889}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{05F5963B-86FF-4E91-BC57-AF86DA180889}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{05F5963B-86FF-4E91-BC57-AF86DA180889}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C73D1486-C5C4-4BF0-AE0B-D0A214E2CCB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C73D1486-C5C4-4BF0-AE0B-D0A214E2CCB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C73D1486-C5C4-4BF0-AE0B-D0A214E2CCB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C73D1486-C5C4-4BF0-AE0B-D0A214E2CCB9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4365143E-11C7-46E7-9B9A-99324B04F28F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4365143E-11C7-46E7-9B9A-99324B04F28F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4365143E-11C7-46E7-9B9A-99324B04F28F}.Release|Any CPU.ActiveCfg = Release|Any CPU

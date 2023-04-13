@@ -1,6 +1,7 @@
 ﻿using Framework;
 using Framework.Application;
 using Framework.Application.Interfaces;
+using Framework.SceneGraph.Interfaces;
 using Framework.Steppers.Passthrough;
 using Framework.Steppers.StereoKit.Framework;
 using StereoKit;

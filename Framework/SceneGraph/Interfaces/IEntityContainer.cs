@@ -1,4 +1,6 @@
-﻿namespace Framework.SceneGraph.Interfaces;
+﻿using Framework.Interfaces;
+
+namespace Framework.SceneGraph.Interfaces;
 
 public interface IEntityContainer
 {

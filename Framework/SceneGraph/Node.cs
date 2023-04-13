@@ -1,4 +1,5 @@
-﻿using Framework.SceneGraph.Behaviours;
+﻿using Framework.Interfaces;
+using Framework.SceneGraph.Behaviours;
 using Framework.SceneGraph.Interfaces;
 
 namespace Framework.SceneGraph;
