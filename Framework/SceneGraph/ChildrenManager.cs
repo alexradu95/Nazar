@@ -1,6 +1,6 @@
 ﻿using Framework.SceneGraph.Interfaces;
 
-namespace Framework.SceneGraph.Behaviours;
+namespace Framework.SceneGraph;
 
 internal class ChildrenManager : IChildContainer
 {

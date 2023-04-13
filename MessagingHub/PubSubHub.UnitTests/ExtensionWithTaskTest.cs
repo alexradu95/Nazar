@@ -1,5 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PubSubHub.Hub;
+﻿using Framework.PubSubHub.Hub;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace PubSubHub.UnitTests;
 

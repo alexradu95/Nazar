@@ -1,7 +1,7 @@
-﻿using Framework.MessagingHub.Interfaces;
-using PubSubHub.Hub;
+﻿using Framework.PubSubHub.Hub;
+using Framework.PubSubHub.Interfaces;
 
-namespace PubSubHub.Pub;
+namespace Framework.PubSubHub;
 
 /// <summary>
 ///     The Publisher class is an implementation of the IPublisher interface, which provides functionality for sending
@@ -17,7 +17,7 @@ public class Publisher : IPublisher
     /// <param name="hub">The Hub instance used for managing subscribers and handlers.</param>
     public Publisher(MessagingHub hub)
     {
-        this._hub = hub;
+        _hub = hub;
     }
 
     /// <summary>

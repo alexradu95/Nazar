@@ -1,7 +1,7 @@
 ﻿using StereoKit;
 using StereoKit.Framework;
 
-namespace Framework;
+namespace Framework.HandMenu;
 
 public static class HandMenuGenerator
 {

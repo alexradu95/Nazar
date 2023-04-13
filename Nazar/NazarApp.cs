@@ -1,14 +1,14 @@
-﻿using Framework;
-using Framework.Application;
-using Framework.Application.Interfaces;
+﻿using Framework.HandMenu;
+using Framework.SceneGraph;
 using Framework.SceneGraph.Interfaces;
-using Framework.Steppers.Passthrough;
+using Framework.Steppers.Interfaces;
+using Framework.Steppers.Manager;
 using Framework.Steppers.StereoKit.Framework;
 using StereoKit;
 
 namespace Nazar;
 
-public class NazarApp : IAppLauncher
+public class NazarApp
 {
     public SKSettings Settings => new()
     {

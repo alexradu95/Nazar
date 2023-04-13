@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace PubSubHub.Hub;
+namespace Framework.PubSubHub.Hub;
 
 /// <summary>
 ///     The HandlerManager class is responsible for managing subscribers and their handlers in the PubSub pattern.
@@ -73,7 +73,7 @@ public class HandlerManager
         lock (_locker)
         {
             var query = Handlers.Where(a => !a.Sender.IsAlive ||
-                                             (a.Sender.Target.Equals(subscriber) && a.Type == typeof(T)));
+                                             a.Sender.Target.Equals(subscriber) && a.Type == typeof(T));
 
             if (handler != null)
                 query = query.Where(a => a.Action.Equals(handler));

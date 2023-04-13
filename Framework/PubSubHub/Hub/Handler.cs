@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PubSubHub.Hub;
+namespace Framework.PubSubHub.Hub;
 
 /// <summary>
 ///     Represents a handler in the PubSub pattern, which contains information about the subscriber,

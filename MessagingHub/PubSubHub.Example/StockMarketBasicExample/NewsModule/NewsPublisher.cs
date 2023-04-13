@@ -1,33 +1,35 @@
-﻿using PubSubHub.Example.StockMarketBasicExample.NewsModule;
-using PubSubHub.Pub.Interfaces;
+﻿using Framework.PubSubHub.Interfaces;
 
-public class NewsPublisher
+namespace PubSubHub.Example.StockMarketBasicExample.NewsModule
 {
-    private readonly List<News> _newsList;
-    private readonly IPublisher _publisher;
-    private readonly Random _random = new();
-    private Timer _timer;
-
-    public NewsPublisher(IPublisher publisher, List<News> newsList)
+    public class NewsPublisher
     {
-        _publisher = publisher;
-        _newsList = newsList;
-    }
+        private readonly List<News> _newsList;
+        private readonly IPublisher _publisher;
+        private readonly Random _random = new();
+        private Timer _timer;
 
-    public void Start()
-    {
-        _timer = new Timer(PublishNews, null, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(10));
-    }
+        public NewsPublisher(IPublisher publisher, List<News> newsList)
+        {
+            _publisher = publisher;
+            _newsList = newsList;
+        }
 
-    public void Stop()
-    {
-        _timer.Dispose();
-    }
+        public void Start()
+        {
+            _timer = new Timer(PublishNews, null, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(10));
+        }
 
-    private void PublishNews(object state)
-    {
-        int index = _random.Next(_newsList.Count);
-        _publisher.Publish(_newsList[index]);
-        Console.WriteLine($"News published: {_newsList[index].Headline}");
+        public void Stop()
+        {
+            _timer.Dispose();
+        }
+
+        private void PublishNews(object state)
+        {
+            int index = _random.Next(_newsList.Count);
+            _publisher.Publish(_newsList[index]);
+            Console.WriteLine($"News published: {_newsList[index].Headline}");
+        }
     }
 }

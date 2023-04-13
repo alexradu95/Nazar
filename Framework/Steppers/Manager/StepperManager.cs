@@ -1,9 +1,9 @@
 ﻿using System.Collections.ObjectModel;
-using Framework.Application.Interfaces;
+using Framework.Steppers.Interfaces;
 using StereoKit;
 using StereoKit.Framework;
 
-namespace Framework.Application;
+namespace Framework.Steppers.Manager;
 
 public class StepperManager : IStepperManager
 {

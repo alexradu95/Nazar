@@ -1,4 +1,4 @@
-﻿namespace PubSubHub.Hub;
+﻿namespace Framework.PubSubHub.Hub;
 
 /// <summary>
 ///     Represents the main class for the PubSub pattern, providing methods for publishing and subscribing

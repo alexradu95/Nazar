@@ -3,7 +3,7 @@
 /// <summary>
 /// Provides an interface for the subscriber in the PubSub pattern. The subscriber is responsible for listening to events published by the publisher.
 /// </summary>
-namespace PubSubHub.Sub.Interfaces;
+namespace Framework.PubSubHub.Interfaces;
 
 public interface ISubscriber
 {

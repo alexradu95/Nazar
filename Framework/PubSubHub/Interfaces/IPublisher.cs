@@ -1,4 +1,4 @@
-﻿namespace Framework.MessagingHub.Interfaces;
+﻿namespace Framework.PubSubHub.Interfaces;
 
 /// <summary>
 ///     Provides an interface for the publisher in the PubSub pattern. The publisher is responsible for sending events to

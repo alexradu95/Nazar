@@ -1,11 +1,8 @@
-﻿using Framework.MessagingHub.Interfaces;
-using PubSubHub.Hub;
+﻿using Framework.PubSubHub.Hub;
+using Framework.PubSubHub.Interfaces;
 using PubSubHub.PipelineFactory.PubSub;
-using PubSubHub.Pub;
-using PubSubHub.Sub;
-using PubSubHub.Sub.Interfaces;
 
-namespace PubSubHub.PipelineFactory;
+namespace Framework.PubSubHub;
 
 public class PubSubPipelineFactory : IPubSubPipelineFactory
 {

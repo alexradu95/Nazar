@@ -1,10 +1,8 @@
-﻿using PubSubHub.Example.StockMarketBasicExample.NewsModule;
+﻿using Framework.PubSubHub;
+using Framework.PubSubHub.Hub;
+using Framework.PubSubHub.Interfaces;
+using PubSubHub.Example.StockMarketBasicExample.NewsModule;
 using PubSubHub.Example.StockMarketBasicExample.StockMarketModule;
-using PubSubHub.Hub;
-using PubSubHub.Pub;
-using PubSubHub.Pub.Interfaces;
-using PubSubHub.Sub;
-using PubSubHub.Sub.Interfaces;
 
 internal class Program
 {

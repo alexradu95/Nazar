@@ -1,5 +1,4 @@
-﻿using Framework.MessagingHub.Interfaces;
-using PubSubHub.Sub.Interfaces;
+﻿using Framework.PubSubHub.Interfaces;
 
 namespace PubSubHub.PipelineFactory
 {

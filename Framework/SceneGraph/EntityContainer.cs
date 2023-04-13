@@ -1,7 +1,6 @@
-﻿using Framework.Interfaces;
-using Framework.SceneGraph.Interfaces;
+﻿using Framework.SceneGraph.Interfaces;
 
-namespace Framework.SceneGraph.Behaviours;
+namespace Framework.SceneGraph;
 
 internal class EntityContainer : IEntityContainer
 {

@@ -1,4 +1,4 @@
-﻿using PubSubHub.Sub.Interfaces;
+﻿using Framework.PubSubHub.Interfaces;
 
 namespace PubSubHub.Example.StockMarketBasicExample.NewsModule;
 

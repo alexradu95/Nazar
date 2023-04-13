@@ -1,6 +1,6 @@
 ﻿using StereoKit.Framework;
 
-namespace Framework.Application.Interfaces;
+namespace Framework.Steppers.Interfaces;
 
 public interface IStepperManager
 {

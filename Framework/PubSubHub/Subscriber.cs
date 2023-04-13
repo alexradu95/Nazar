@@ -1,8 +1,7 @@
-﻿using System;
-using PubSubHub.Hub;
-using PubSubHub.Sub.Interfaces;
+﻿using Framework.PubSubHub.Hub;
+using Framework.PubSubHub.Interfaces;
 
-namespace PubSubHub.Sub;
+namespace Framework.PubSubHub;
 
 /// <summary>
 ///     The Subscriber class is an implementation of the ISubscriber interface, which provides functionality for listening
@@ -18,7 +17,7 @@ public class Subscriber : ISubscriber
     /// <param name="hub">The hub instance for managing handlers.</param>
     public Subscriber(MessagingHub hub)
     {
-        this._hub = hub;
+        _hub = hub;
     }
 
     /// <summary>

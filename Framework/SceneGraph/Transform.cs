@@ -1,7 +1,7 @@
 ﻿using Framework.SceneGraph.Interfaces;
 using StereoKit;
 
-namespace Framework.SceneGraph.Behaviours;
+namespace Framework.SceneGraph;
 
 public class Transform : ITransform
 {

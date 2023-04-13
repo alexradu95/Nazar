@@ -1,6 +1,6 @@
 ﻿using Framework.SceneGraph.Interfaces;
 
-namespace Framework.Application;
+namespace Framework.SceneGraph;
 
 public class SceneGraphManager : ISceneGraph
 {

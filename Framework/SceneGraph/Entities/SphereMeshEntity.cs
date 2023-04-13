@@ -1,5 +1,4 @@
-﻿using Framework.Interfaces;
-using Framework.SceneGraph.Interfaces;
+﻿using Framework.SceneGraph.Interfaces;
 using StereoKit;
 
 namespace Framework.SceneGraph.Entities;
