@@ -2,7 +2,7 @@
 using Android.Runtime;
 using System;
 
-namespace LauncherMultiPlatform.Platforms.Android
+namespace Launcher.Maui
 {
     [Application]
     public class MainApplication : Application
