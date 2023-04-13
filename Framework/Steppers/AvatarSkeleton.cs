@@ -1,7 +1,7 @@
 ﻿using StereoKit;
 using StereoKit.Framework;
 
-namespace Nazar.Framework.Steppers;
+namespace Framework.Steppers;
 
 public class AvatarSkeleton : IStepper
 {
@@ -63,7 +63,7 @@ public class AvatarSkeleton : IStepper
         for (int h = 0; h < 2; h++)
         {
             float handed = h == 0 ? -1 : 1;
-            Hand hand = Input.Hand((Handed) h);
+            Hand hand = Input.Hand((Handed)h);
             Vec3 handPos = hand.wrist.position;
             if (!hand.IsTracked) continue;
 
@@ -96,7 +96,7 @@ public class AvatarSkeleton : IStepper
 
             Lines.Add(_armLine);
             for (int i = 1; i < 5; i++)
-                Lines.Add(handPos, hand[(FingerId) i, JointId.KnuckleMajor].position, Color32.White,
+                Lines.Add(handPos, hand[(FingerId)i, JointId.KnuckleMajor].position, Color32.White,
                     new Color32(255, 255, 255, 0), 0.01f);
         }
     }

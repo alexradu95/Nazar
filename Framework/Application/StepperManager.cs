@@ -3,7 +3,7 @@ using Framework.Application.Interfaces;
 using StereoKit;
 using StereoKit.Framework;
 
-namespace LauncherMultiPlatform;
+namespace Framework.Application;
 
 public class StepperManager : IStepperManager
 {

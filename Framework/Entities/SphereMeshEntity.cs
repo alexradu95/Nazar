@@ -1,7 +1,7 @@
 ﻿using Framework.SceneGraph.Interfaces;
 using StereoKit;
 
-namespace Framework.SceneGraph.CoreComponents;
+namespace Framework.Entities;
 
 public class SphereMeshEntity : IEntity
 {

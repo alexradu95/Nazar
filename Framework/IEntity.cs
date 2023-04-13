@@ -1,7 +1,7 @@
 ﻿using Framework.SceneGraph.Interfaces;
 using StereoKit;
 
-namespace Framework.SceneGraph;
+namespace Framework;
 
 /// <summary>
 /// A basic render able entity.
