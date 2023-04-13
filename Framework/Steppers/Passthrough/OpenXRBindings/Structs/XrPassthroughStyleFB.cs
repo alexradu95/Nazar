@@ -6,14 +6,14 @@ namespace Framework.Steppers.Passthrough.OpenXRBindings.Structs;
 
 // https://registry.khronos.org/OpenXR/specs/1.0/man/html/XrPassthroughStyleFB.html
 [StructLayout(LayoutKind.Sequential)]
-internal struct XrPassthroughStyleFB
+internal struct XrPassthroughStyleFb
 {
     public readonly XrStructureType type;
     public readonly nint next;
     public readonly float textureOpacityFactor;
     public readonly Color edgeColor;
 
-    public XrPassthroughStyleFB(float textureOpacityFactor, Color edgeColor)
+    public XrPassthroughStyleFb(float textureOpacityFactor, Color edgeColor)
     {
         type = XrStructureType.XR_TYPE_PASSTHROUGH_STYLE_FB;
         next = nint.Zero;

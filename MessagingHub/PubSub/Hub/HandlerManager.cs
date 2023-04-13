@@ -14,7 +14,7 @@ public class HandlerManager
     /// <summary>
     ///     A list to store all handlers.
     /// </summary>
-    public readonly List<Handler> _handlers = new();
+    public readonly List<Handler> Handlers = new();
 
     /// <summary>
     ///     A locker object used for synchronization purposes while accessing the handlers list.
@@ -38,7 +38,7 @@ public class HandlerManager
 
         lock (_locker)
         {
-            _handlers.Add(item);
+            Handlers.Add(item);
         }
     }
 
@@ -51,14 +51,14 @@ public class HandlerManager
     {
         lock (_locker)
         {
-            var query = _handlers.Where(a => !a.Sender.IsAlive ||
+            var query = Handlers.Where(a => !a.Sender.IsAlive ||
                                              a.Sender.Target.Equals(subscriber));
 
             if (handler != null)
                 query = query.Where(a => a.Action.Equals(handler));
 
             foreach (Handler h in query.ToList())
-                _handlers.Remove(h);
+                Handlers.Remove(h);
         }
     }
 
@@ -72,14 +72,14 @@ public class HandlerManager
     {
         lock (_locker)
         {
-            var query = _handlers.Where(a => !a.Sender.IsAlive ||
+            var query = Handlers.Where(a => !a.Sender.IsAlive ||
                                              (a.Sender.Target.Equals(subscriber) && a.Type == typeof(T)));
 
             if (handler != null)
                 query = query.Where(a => a.Action.Equals(handler));
 
             foreach (Handler h in query.ToList())
-                _handlers.Remove(h);
+                Handlers.Remove(h);
         }
     }
 
@@ -95,7 +95,7 @@ public class HandlerManager
     {
         lock (_locker)
         {
-            return _handlers.Any(h => Equals(h.Sender.Target, subscriber) && typeof(T) == h.Type);
+            return Handlers.Any(h => Equals(h.Sender.Target, subscriber) && typeof(T) == h.Type);
         }
     }
 
@@ -108,7 +108,7 @@ public class HandlerManager
     {
         lock (_locker)
         {
-            return _handlers.Any(h =>
+            return Handlers.Any(h =>
                 Equals(h.Sender.Target, subscriber) && typeof(T) == h.Type && h.Action.Equals(handler));
         }
     }
@@ -162,7 +162,7 @@ public class HandlerManager
     private List<Handler> GetAliveHandlers<T>()
     {
         PruneHandlers();
-        return _handlers.Where(h => h.Type.GetTypeInfo().IsAssignableFrom(typeof(T).GetTypeInfo())).ToList();
+        return Handlers.Where(h => h.Type.GetTypeInfo().IsAssignableFrom(typeof(T).GetTypeInfo())).ToList();
     }
 
     /// <summary>
@@ -172,9 +172,9 @@ public class HandlerManager
     {
         lock (_locker)
         {
-            for (int i = _handlers.Count - 1; i >= 0; --i)
-                if (!_handlers[i].Sender.IsAlive)
-                    _handlers.RemoveAt(i);
+            for (int i = Handlers.Count - 1; i >= 0; --i)
+                if (!Handlers[i].Sender.IsAlive)
+                    Handlers.RemoveAt(i);
         }
     }
 }

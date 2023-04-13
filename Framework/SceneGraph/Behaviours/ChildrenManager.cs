@@ -1,6 +1,6 @@
 ﻿using Framework.SceneGraph.Interfaces;
 
-namespace Framework.SceneGraph.Behaviours;
+namespace Framework.SceneGraph.Behaviors;
 
 internal class ChildrenManager : IChildContainer
 {
@@ -28,13 +28,11 @@ internal class ChildrenManager : IChildContainer
         {
             // search in direct children
             if (node.Id == identifier) return node;
-
             // recursive search
-            if (searchInChildren)
-            {
-                INode foundInChild = node.ChildContainer.FindChildNode(identifier, searchInChildren);
-                if (foundInChild != null) return foundInChild;
-            }
+            if (!searchInChildren) continue;
+
+            INode foundInChild = node.ChildContainer.FindChildNode(identifier, searchInChildren);
+            if (foundInChild != null) return foundInChild;
         }
 
         return null;

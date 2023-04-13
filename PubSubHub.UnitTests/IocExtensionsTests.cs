@@ -8,30 +8,30 @@ namespace PubSub.Tests;
 [TestClass]
 public class IocExtensionsTests
 {
-    private object preservedSender;
-    private IPublisher publisher;
-    private IPubSubPipelineFactory pubSubFactory;
-    private object sender;
-    private ISubscriber subscriber;
+    private object _preservedSender;
+    private IPublisher _publisher;
+    private IPubSubPipelineFactory _pubSubFactory;
+    private object _sender;
+    private ISubscriber _subscriber;
 
     [TestInitialize]
     public void Setup()
     {
-        pubSubFactory = new PubSubPipelineFactory();
-        subscriber = pubSubFactory.GetSubscriber();
-        publisher = pubSubFactory.GetPublisher();
-        sender = new object();
-        preservedSender = new object();
+        _pubSubFactory = new PubSubPipelineFactory();
+        _subscriber = _pubSubFactory.GetSubscriber();
+        _publisher = _pubSubFactory.GetPublisher();
+        _sender = new object();
+        _preservedSender = new object();
     }
 
     [TestMethod]
     public void Publish_Over_Interface_Calls_All_Subscribers()
     {
         int callCount = 0;
-        subscriber.Subscribe<Event>(sender, a => callCount++);
-        subscriber.Subscribe(sender, new Action<Event>(a => callCount++));
+        _subscriber.Subscribe<Event>(_sender, a => callCount++);
+        _subscriber.Subscribe(_sender, new Action<Event>(a => callCount++));
 
-        publisher.Publish(new SpecialEvent());
+        _publisher.Publish(new SpecialEvent());
 
         Assert.AreEqual(2, callCount);
     }
@@ -39,36 +39,36 @@ public class IocExtensionsTests
     [TestMethod]
     public void Unsubscribe_OverInterface_RemovesAllHandlers_OfAnyType_ForSender()
     {
-        subscriber.Subscribe(preservedSender, new Action<Event>(a => { }));
-        subscriber.Subscribe(sender, new Action<SpecialEvent>(a => { }));
-        subscriber.Unsubscribe(sender);
+        _subscriber.Subscribe(_preservedSender, new Action<Event>(a => { }));
+        _subscriber.Subscribe(_sender, new Action<SpecialEvent>(a => { }));
+        _subscriber.Unsubscribe(_sender);
 
-        Assert.IsFalse(subscriber.Exists<SpecialEvent>(sender));
-        Assert.IsTrue(subscriber.Exists<Event>(preservedSender));
+        Assert.IsFalse(_subscriber.Exists<SpecialEvent>(_sender));
+        Assert.IsTrue(_subscriber.Exists<Event>(_preservedSender));
     }
 
     [TestMethod]
     public void Unsubscribe_OverInterface_RemovesAllHandlers_OfSpecificType_ForSender()
     {
-        subscriber.Subscribe(sender, new Action<string>(a => { }));
-        subscriber.Subscribe(sender, new Action<string>(a => { }));
-        subscriber.Subscribe(preservedSender, new Action<string>(a => { }));
+        _subscriber.Subscribe(_sender, new Action<string>(a => { }));
+        _subscriber.Subscribe(_sender, new Action<string>(a => { }));
+        _subscriber.Subscribe(_preservedSender, new Action<string>(a => { }));
 
-        subscriber.Unsubscribe<string>(sender);
+        _subscriber.Unsubscribe<string>(_sender);
 
-        Assert.IsFalse(subscriber.Exists<string>(sender));
+        Assert.IsFalse(_subscriber.Exists<string>(_sender));
     }
 
     [TestMethod]
     public void Unsubscribe_RemovesSpecificHandler_ForSender()
     {
         var actionToDie = new Action<string>(a => { });
-        subscriber.Subscribe(sender, actionToDie);
-        subscriber.Subscribe(sender, new Action<string>(a => { }));
-        subscriber.Subscribe(preservedSender, new Action<string>(a => { }));
+        _subscriber.Subscribe(_sender, actionToDie);
+        _subscriber.Subscribe(_sender, new Action<string>(a => { }));
+        _subscriber.Subscribe(_preservedSender, new Action<string>(a => { }));
 
-        subscriber.Unsubscribe(sender, actionToDie);
+        _subscriber.Unsubscribe(_sender, actionToDie);
 
-        Assert.IsFalse(subscriber.Exists(sender, actionToDie));
+        Assert.IsFalse(_subscriber.Exists(_sender, actionToDie));
     }
 }

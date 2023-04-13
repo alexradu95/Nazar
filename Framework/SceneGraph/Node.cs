@@ -1,10 +1,10 @@
-﻿using Framework.SceneGraph.Behaviours;
+﻿using Framework.SceneGraph.Behaviors;
 using Framework.SceneGraph.Interfaces;
 
 namespace Framework.SceneGraph;
 
 /// <summary>
-///     A node with transformations, you can attach renderable entities and scripts to it, or append
+///     A node with transformations, you can attach render able entities and scripts to it, or append
 ///     child nodes to inherit transformations.
 /// </summary>
 public class Node : INode
@@ -43,7 +43,7 @@ public class Node : INode
                 value.ChildContainer.AddChildNode(this);
 
                 // Update the node's transformation ParentLastTransformVersion version based on the new parent's transformation
-                // We will substract 1 in order for the Nodes to be updated during the next frame
+                // We will subtract 1 in order for the Nodes to be updated during the next frame
                 Transform.ParentLastTransformVersion = value.Transform.TransformVersion - 1;
             }
             else

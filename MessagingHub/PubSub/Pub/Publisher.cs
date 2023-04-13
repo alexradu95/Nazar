@@ -9,7 +9,7 @@ namespace PubSubHub.Pub;
 /// </summary>
 public class Publisher : IPublisher
 {
-    private readonly MessagingHub hub;
+    private readonly MessagingHub _hub;
 
     /// <summary>
     ///     Initializes a new instance of the Publisher class with the specified Hub instance.
@@ -17,7 +17,7 @@ public class Publisher : IPublisher
     /// <param name="hub">The Hub instance used for managing subscribers and handlers.</param>
     public Publisher(MessagingHub hub)
     {
-        this.hub = hub;
+        this._hub = hub;
     }
 
     /// <summary>
@@ -27,6 +27,6 @@ public class Publisher : IPublisher
     /// <param name="data">The data associated with the event.</param>
     public void Publish<T>(T data)
     {
-        hub.Publish(data);
+        _hub.Publish(data);
     }
 }

@@ -1,23 +1,23 @@
 ﻿using Framework.SceneGraph.Interfaces;
 using StereoKit;
 
-namespace Framework.SceneGraph.Behaviours;
+namespace Framework.SceneGraph.Behaviors;
 
 public class Transform : ITransform
 {
-    private Matrix localTransform = Matrix.Identity;
+    private Matrix _localTransform = Matrix.Identity;
 
     /// <summary>
     ///     Get / Set node local position.
     /// </summary>
     public Vec3 Position
     {
-        get => localTransform.Translation;
+        get => _localTransform.Translation;
         set
         {
-            if (localTransform.Translation.ToString() != value.ToString())
+            if (_localTransform.Translation.ToString() != value.ToString())
             {
-                localTransform.Translation = value;
+                _localTransform.Translation = value;
                 OnTransformationsSet();
             }
         }
@@ -29,10 +29,10 @@ public class Transform : ITransform
 
     public Matrix LocalTransform
     {
-        get => localTransform;
+        get => _localTransform;
         set
         {
-            localTransform = value;
+            _localTransform = value;
             OnTransformationsSet();
         }
     }
@@ -48,12 +48,12 @@ public class Transform : ITransform
             {
                 if (parentNode.Transform.IsDirty) parentNode.Transform.UpdateTransformations(parentNode);
 
-                WorldTransform = localTransform * parentNode.Transform.WorldTransform;
+                WorldTransform = _localTransform * parentNode.Transform.WorldTransform;
                 ParentLastTransformVersion = parentNode.Transform.TransformVersion;
             }
             else
             {
-                WorldTransform = localTransform;
+                WorldTransform = _localTransform;
                 ParentLastTransformVersion = 0;
             }
 
@@ -91,10 +91,10 @@ public class Transform : ITransform
     /// </summary>
     public float PositionX
     {
-        get => localTransform.Translation.x;
+        get => _localTransform.Translation.x;
         set
         {
-            if (localTransform.Translation.x != value) OnTransformationsSet();
+            if (_localTransform.Translation.x != value) OnTransformationsSet();
             // How to edit Translation X
         }
     }
@@ -104,10 +104,10 @@ public class Transform : ITransform
     /// </summary>
     public float PositionY
     {
-        get => localTransform.Translation.y;
+        get => _localTransform.Translation.y;
         set
         {
-            if (localTransform.Translation.y != value) OnTransformationsSet();
+            if (_localTransform.Translation.y != value) OnTransformationsSet();
             // How to edit Translation Y
         }
     }
@@ -118,10 +118,10 @@ public class Transform : ITransform
     /// </summary>
     public float PositionZ
     {
-        get => localTransform.Translation.z;
+        get => _localTransform.Translation.z;
         set
         {
-            if (localTransform.Translation.z != value) OnTransformationsSet();
+            if (_localTransform.Translation.z != value) OnTransformationsSet();
             // How to edit Translation Z
         }
     }
@@ -132,7 +132,7 @@ public class Transform : ITransform
     /// <param name="moveBy">Vector to translate by.</param>
     public void Translate(Vec3 moveBy)
     {
-        localTransform.Translation += moveBy;
+        _localTransform.Translation += moveBy;
         OnTransformationsSet();
     }
 
@@ -143,17 +143,17 @@ public class Transform : ITransform
     /// <summary>
     ///     Get / Set node local rotation.
     /// </summary>
-    public Quat Rotation => localTransform.Rotation;
+    public Quat Rotation => _localTransform.Rotation;
 
     /// <summary>
     ///     Alias to access rotation X directly.
     /// </summary>
     public float RotationX
     {
-        get => localTransform.Rotation.x;
+        get => _localTransform.Rotation.x;
         set
         {
-            if (localTransform.Rotation.x != value)
+            if (_localTransform.Rotation.x != value)
             {
                 // How to change the rotation of X?
             }
@@ -165,10 +165,10 @@ public class Transform : ITransform
     /// </summary>
     public float RotationY
     {
-        get => localTransform.Rotation.y;
+        get => _localTransform.Rotation.y;
         set
         {
-            if (localTransform.Rotation.y != value)
+            if (_localTransform.Rotation.y != value)
             {
                 // How to change the rotation of Y?
             }
@@ -180,10 +180,10 @@ public class Transform : ITransform
     /// </summary>
     public float RotationZ
     {
-        get => localTransform.Rotation.z;
+        get => _localTransform.Rotation.z;
         set
         {
-            if (localTransform.Rotation.z != value)
+            if (_localTransform.Rotation.z != value)
             {
                 // How to change the rotation of Z?
             }
@@ -199,12 +199,12 @@ public class Transform : ITransform
     /// </summary>
     public Vec3 Scale
     {
-        get => localTransform.Scale;
+        get => _localTransform.Scale;
         set
         {
-            if (localTransform.Scale.ToString() != value.ToString())
+            if (_localTransform.Scale.ToString() != value.ToString())
             {
-                localTransform = localTransform.Pose.ToMatrix(value);
+                _localTransform = _localTransform.Pose.ToMatrix(value);
                 OnTransformationsSet();
             }
         }
@@ -215,10 +215,10 @@ public class Transform : ITransform
     /// </summary>
     public float ScaleX
     {
-        get => localTransform.Scale.x;
+        get => _localTransform.Scale.x;
         set
         {
-            if (localTransform.Scale.x != value) OnTransformationsSet();
+            if (_localTransform.Scale.x != value) OnTransformationsSet();
             // How to change scale on x?
         }
     }
@@ -229,10 +229,10 @@ public class Transform : ITransform
     /// </summary>
     public float ScaleY
     {
-        get => localTransform.Scale.y;
+        get => _localTransform.Scale.y;
         set
         {
-            if (localTransform.Scale.y != value) OnTransformationsSet();
+            if (_localTransform.Scale.y != value) OnTransformationsSet();
             // How to change scale on Y?
         }
     }
@@ -243,10 +243,10 @@ public class Transform : ITransform
     /// </summary>
     public float ScaleZ
     {
-        get => localTransform.Scale.z;
+        get => _localTransform.Scale.z;
         set
         {
-            if (localTransform.Scale.z != value) OnTransformationsSet();
+            if (_localTransform.Scale.z != value) OnTransformationsSet();
             // How to change scale on Z?
         }
     }

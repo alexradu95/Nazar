@@ -4,15 +4,15 @@ using Framework.Steppers.Passthrough.OpenXRBindings.Enums;
 namespace Framework.Steppers.Passthrough.OpenXRBindings.Structs;
 
 [StructLayout(LayoutKind.Sequential)]
-internal struct XrCompositionLayerPassthroughFB
+internal struct XrCompositionLayerPassthroughFb
 {
     public readonly XrStructureType type;
     public readonly nint next;
     public readonly XrCompositionLayerFlags flags;
     public readonly ulong space;
-    public readonly XrPassthroughLayerFB layerHandle;
+    public readonly XrPassthroughLayerFb layerHandle;
 
-    public XrCompositionLayerPassthroughFB(XrCompositionLayerFlags flags, XrPassthroughLayerFB layerHandle)
+    public XrCompositionLayerPassthroughFb(XrCompositionLayerFlags flags, XrPassthroughLayerFb layerHandle)
     {
         type = XrStructureType.XR_TYPE_COMPOSITION_LAYER_PASSTHROUGH_FB;
         next = nint.Zero;

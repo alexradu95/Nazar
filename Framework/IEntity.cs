@@ -4,7 +4,7 @@ using StereoKit;
 namespace Framework.SceneGraph;
 
 /// <summary>
-///     A basic renderable entity.
+/// A basic render able entity.
 /// </summary>
 public interface IEntity
 {

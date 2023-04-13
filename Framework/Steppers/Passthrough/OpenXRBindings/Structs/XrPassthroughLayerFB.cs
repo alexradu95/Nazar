@@ -1,9 +1,9 @@
 ﻿namespace Framework.Steppers.Passthrough.OpenXRBindings.Structs;
 #pragma warning disable 0169 // handle is not "used", but required for interop
 
-internal struct XrPassthroughLayerFB
+internal struct XrPassthroughLayerFb
 {
-    private ulong handle;
+    private ulong _handle;
 }
 
 #pragma warning restore 0169

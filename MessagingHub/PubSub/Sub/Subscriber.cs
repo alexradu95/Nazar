@@ -10,7 +10,7 @@ namespace PubSubHub.Sub;
 /// </summary>
 public class Subscriber : ISubscriber
 {
-    private readonly MessagingHub hub;
+    private readonly MessagingHub _hub;
 
     /// <summary>
     ///     Initializes a new instance of the Subscriber class.
@@ -18,7 +18,7 @@ public class Subscriber : ISubscriber
     /// <param name="hub">The hub instance for managing handlers.</param>
     public Subscriber(MessagingHub hub)
     {
-        this.hub = hub;
+        this._hub = hub;
     }
 
     /// <summary>
@@ -29,7 +29,7 @@ public class Subscriber : ISubscriber
     /// <returns>Returns true if the handler exists, false otherwise.</returns>
     public bool Exists<T>(object subscriber)
     {
-        return hub.Exists<T>(subscriber);
+        return _hub.Exists<T>(subscriber);
     }
 
     /// <summary>
@@ -41,7 +41,7 @@ public class Subscriber : ISubscriber
     /// <returns>Returns true if the handler exists, false otherwise.</returns>
     public bool Exists<T>(object subscriber, Action<T> handler)
     {
-        return hub.Exists(subscriber, handler);
+        return _hub.Exists(subscriber, handler);
     }
 
     /// <summary>
@@ -52,7 +52,7 @@ public class Subscriber : ISubscriber
     /// <param name="handler">The handler to subscribe.</param>
     public void Subscribe<T>(object subscriber, Action<T> handler)
     {
-        hub.Subscribe(subscriber, handler);
+        _hub.Subscribe(subscriber, handler);
     }
 
     /// <summary>
@@ -61,7 +61,7 @@ public class Subscriber : ISubscriber
     /// <param name="subscriber">The subscriber object.</param>
     public void Unsubscribe(object subscriber)
     {
-        hub.Unsubscribe(subscriber);
+        _hub.Unsubscribe(subscriber);
     }
 
     /// <summary>
@@ -71,7 +71,7 @@ public class Subscriber : ISubscriber
     /// <param name="subscriber">The subscriber object.</param>
     public void Unsubscribe<T>(object subscriber)
     {
-        hub.Unsubscribe<T>(subscriber);
+        _hub.Unsubscribe<T>(subscriber);
     }
 
     /// <summary>
@@ -82,6 +82,6 @@ public class Subscriber : ISubscriber
     /// <param name="handler">The handler to unsubscribe.</param>
     public void Unsubscribe<T>(object subscriber, Action<T> handler)
     {
-        hub.Unsubscribe(subscriber, handler);
+        _hub.Unsubscribe(subscriber, handler);
     }
 }

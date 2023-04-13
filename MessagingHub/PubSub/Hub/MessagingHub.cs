@@ -10,7 +10,7 @@ namespace PubSubHub.Hub;
 public class MessagingHub
 {
     private static MessagingHub _default;
-    public readonly HandlerManager _handlerManager = new();
+    public readonly HandlerManager HandlerManager = new();
 
     /// <summary>
     ///     Gets the default Hub instance, which is created lazily on first access.
@@ -24,7 +24,7 @@ public class MessagingHub
     /// <param name="data">The data associated with the event. Defaults to the default value of the data type.</param>
     public void Publish<T>(T data = default)
     {
-        _handlerManager.ExecuteHandlers(data);
+        HandlerManager.ExecuteHandlers(data);
     }
 
     /// <summary>
@@ -34,7 +34,7 @@ public class MessagingHub
     /// <param name="data">The data associated with the event. Defaults to the default value of the data type.</param>
     public async Task PublishAsync<T>(T data = default)
     {
-        await _handlerManager.ExecuteHandlersAsync(data);
+        await HandlerManager.ExecuteHandlersAsync(data);
     }
 
     /// <summary>
@@ -68,7 +68,7 @@ public class MessagingHub
     /// <param name="handler">The action to be executed when the event is published.</param>
     public void Subscribe<T>(object subscriber, Action<T> handler)
     {
-        _handlerManager.AddHandler<T>(subscriber, handler);
+        HandlerManager.AddHandler<T>(subscriber, handler);
     }
 
     /// <summary>
@@ -80,7 +80,7 @@ public class MessagingHub
     /// <param name="handler">The asynchronous function to be executed when the event is published.</param>
     public void Subscribe<T>(object subscriber, Func<T, Task> handler)
     {
-        _handlerManager.AddHandler<T>(subscriber, handler);
+        HandlerManager.AddHandler<T>(subscriber, handler);
     }
 
     /// <summary>
@@ -99,7 +99,7 @@ public class MessagingHub
     /// <param name="handler">An optional handler filter to limit the unsubscription.</param>
     public void Unsubscribe(object subscriber, Delegate handler = null)
     {
-        _handlerManager.RemoveHandlers(subscriber, handler);
+        HandlerManager.RemoveHandlers(subscriber, handler);
     }
 
     /// <summary>
@@ -129,7 +129,7 @@ public class MessagingHub
     /// <param name="handler">An optional handler filter to limit the unsubscription.</param>
     public void Unsubscribe<T>(object subscriber, Delegate handler = null)
     {
-        _handlerManager.RemoveHandlers<T>(subscriber, handler);
+        HandlerManager.RemoveHandlers<T>(subscriber, handler);
     }
 
     /// <summary>
@@ -150,7 +150,7 @@ public class MessagingHub
     /// <returns>true if a handler exists; otherwise, false.</returns>
     public bool Exists<T>(object subscriber)
     {
-        return _handlerManager.HandlerExists<T>(subscriber);
+        return HandlerManager.HandlerExists<T>(subscriber);
     }
 
 
@@ -163,6 +163,6 @@ public class MessagingHub
     /// <returns>true if the specific handler exists; otherwise, false.</returns>
     public bool Exists<T>(object subscriber, Action<T> handler)
     {
-        return _handlerManager.HandlerExists(subscriber, handler);
+        return HandlerManager.HandlerExists(subscriber, handler);
     }
 }

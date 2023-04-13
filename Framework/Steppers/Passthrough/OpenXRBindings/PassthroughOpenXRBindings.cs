@@ -7,69 +7,69 @@ namespace Framework.Steppers.Passthrough.OpenXRBindings;
 
 // The PassthroughOpenXRBindings class provides bindings for the
 // OpenXR extension which enables integration of passthrough camera functionality
-internal class PassthroughOpenXRBindings
+internal class PassthroughOpenXrBindings
 {
     // Fields for the native OpenXR function delegates.
-    internal del_xrCreatePassthroughFB xrCreatePassthroughFB;
-    internal del_xrCreatePassthroughLayerFB xrCreatePassthroughLayerFB;
-    internal del_xrDestroyPassthroughFB xrDestroyPassthroughFB;
-    internal del_xrDestroyPassthroughLayerFB xrDestroyPassthroughLayerFB;
-    internal del_xrPassthroughLayerPauseFB xrPassthroughLayerPauseFB;
-    internal del_xrPassthroughLayerResumeFB xrPassthroughLayerResumeFB;
-    internal del_xrPassthroughLayerSetStyleFB xrPassthroughLayerSetStyleFB;
-    internal del_xrPassthroughPauseFB xrPassthroughPauseFB;
-    internal del_xrPassthroughStartFB xrPassthroughStartFB;
+    internal DelXrCreatePassthroughFb XrCreatePassthroughFb;
+    internal DelXrCreatePassthroughLayerFb XrCreatePassthroughLayerFb;
+    internal DelXrDestroyPassthroughFb XrDestroyPassthroughFb;
+    internal DelXrDestroyPassthroughLayerFb XrDestroyPassthroughLayerFb;
+    internal DelXrPassthroughLayerPauseFb XrPassthroughLayerPauseFb;
+    internal DelXrPassthroughLayerResumeFb XrPassthroughLayerResumeFb;
+    internal DelXrPassthroughLayerSetStyleFb XrPassthroughLayerSetStyleFb;
+    internal DelXrPassthroughPauseFb XrPassthroughPauseFb;
+    internal DelXrPassthroughStartFb XrPassthroughStartFb;
 
-    internal bool LoadOpenXRBindings()
+    internal bool LoadOpenXrBindings()
     {
         return
-            (xrCreatePassthroughFB = Backend.OpenXR.GetFunction<del_xrCreatePassthroughFB>("xrCreatePassthroughFB")) !=
+            (XrCreatePassthroughFb = Backend.OpenXR.GetFunction<DelXrCreatePassthroughFb>("xrCreatePassthroughFB")) !=
             null &&
-            (xrDestroyPassthroughFB =
-                Backend.OpenXR.GetFunction<del_xrDestroyPassthroughFB>("xrDestroyPassthroughFB")) != null &&
-            (xrPassthroughStartFB = Backend.OpenXR.GetFunction<del_xrPassthroughStartFB>("xrPassthroughStartFB")) !=
+            (XrDestroyPassthroughFb =
+                Backend.OpenXR.GetFunction<DelXrDestroyPassthroughFb>("xrDestroyPassthroughFB")) != null &&
+            (XrPassthroughStartFb = Backend.OpenXR.GetFunction<DelXrPassthroughStartFb>("xrPassthroughStartFB")) !=
             null &&
-            (xrPassthroughPauseFB = Backend.OpenXR.GetFunction<del_xrPassthroughPauseFB>("xrPassthroughPauseFB")) !=
+            (XrPassthroughPauseFb = Backend.OpenXR.GetFunction<DelXrPassthroughPauseFb>("xrPassthroughPauseFB")) !=
             null &&
-            (xrCreatePassthroughLayerFB =
-                Backend.OpenXR.GetFunction<del_xrCreatePassthroughLayerFB>("xrCreatePassthroughLayerFB")) != null &&
-            (xrDestroyPassthroughLayerFB =
-                Backend.OpenXR.GetFunction<del_xrDestroyPassthroughLayerFB>("xrDestroyPassthroughLayerFB")) != null &&
-            (xrPassthroughLayerPauseFB =
-                Backend.OpenXR.GetFunction<del_xrPassthroughLayerPauseFB>("xrPassthroughLayerPauseFB")) != null &&
-            (xrPassthroughLayerResumeFB =
-                Backend.OpenXR.GetFunction<del_xrPassthroughLayerResumeFB>("xrPassthroughLayerResumeFB")) != null &&
-            (xrPassthroughLayerSetStyleFB =
-                Backend.OpenXR.GetFunction<del_xrPassthroughLayerSetStyleFB>("xrPassthroughLayerSetStyleFB")) != null;
+            (XrCreatePassthroughLayerFb =
+                Backend.OpenXR.GetFunction<DelXrCreatePassthroughLayerFb>("xrCreatePassthroughLayerFB")) != null &&
+            (XrDestroyPassthroughLayerFb =
+                Backend.OpenXR.GetFunction<DelXrDestroyPassthroughLayerFb>("xrDestroyPassthroughLayerFB")) != null &&
+            (XrPassthroughLayerPauseFb =
+                Backend.OpenXR.GetFunction<DelXrPassthroughLayerPauseFb>("xrPassthroughLayerPauseFB")) != null &&
+            (XrPassthroughLayerResumeFb =
+                Backend.OpenXR.GetFunction<DelXrPassthroughLayerResumeFb>("xrPassthroughLayerResumeFB")) != null &&
+            (XrPassthroughLayerSetStyleFb =
+                Backend.OpenXR.GetFunction<DelXrPassthroughLayerSetStyleFb>("xrPassthroughLayerSetStyleFB")) != null;
     }
 
     // https://registry.khronos.org/OpenXR/specs/1.0/man/html/xrCreatePassthroughFB.html
-    internal delegate XrResult del_xrCreatePassthroughFB(ulong session, [In] XrPassthroughCreateInfoFB createInfo,
-        out XrPassthroughFB outPassthrough);
+    internal delegate XrResult DelXrCreatePassthroughFb(ulong session, [In] XrPassthroughCreateInfoFb createInfo,
+        out XrPassthroughFb outPassthrough);
 
     // https://registry.khronos.org/OpenXR/specs/1.0/man/html/xrDestroyPassthroughFB.html
-    internal delegate XrResult del_xrDestroyPassthroughFB(XrPassthroughFB passthrough);
+    internal delegate XrResult DelXrDestroyPassthroughFb(XrPassthroughFb passthrough);
 
     // https://registry.khronos.org/OpenXR/specs/1.0/man/html/xrPassthroughPauseFB.html
-    internal delegate XrResult del_xrPassthroughStartFB(XrPassthroughFB passthrough);
+    internal delegate XrResult DelXrPassthroughStartFb(XrPassthroughFb passthrough);
 
     // https://registry.khronos.org/OpenXR/specs/1.0/man/html/xrPassthroughPauseFB.html
-    internal delegate XrResult del_xrPassthroughPauseFB(XrPassthroughFB passthrough);
+    internal delegate XrResult DelXrPassthroughPauseFb(XrPassthroughFb passthrough);
 
     // https://registry.khronos.org/OpenXR/specs/1.0/man/html/xrCreatePassthroughLayerFB.html
-    internal delegate XrResult del_xrCreatePassthroughLayerFB(ulong session,
-        [In] XrPassthroughLayerCreateInfoFB createInfo, out XrPassthroughLayerFB outLayer);
+    internal delegate XrResult DelXrCreatePassthroughLayerFb(ulong session,
+        [In] XrPassthroughLayerCreateInfoFb createInfo, out XrPassthroughLayerFb outLayer);
 
     // https://registry.khronos.org/OpenXR/specs/1.0/man/html/xrDestroyPassthroughLayerFB.html
-    internal delegate XrResult del_xrDestroyPassthroughLayerFB(XrPassthroughLayerFB layer);
+    internal delegate XrResult DelXrDestroyPassthroughLayerFb(XrPassthroughLayerFb layer);
 
     // https://registry.khronos.org/OpenXR/specs/1.0/man/html/xrPassthroughLayerPauseFB.html
-    internal delegate XrResult del_xrPassthroughLayerPauseFB(XrPassthroughLayerFB layer);
+    internal delegate XrResult DelXrPassthroughLayerPauseFb(XrPassthroughLayerFb layer);
 
     // https://registry.khronos.org/OpenXR/specs/1.0/man/html/xrPassthroughLayerResumeFB.html
-    internal delegate XrResult del_xrPassthroughLayerResumeFB(XrPassthroughLayerFB layer);
+    internal delegate XrResult DelXrPassthroughLayerResumeFb(XrPassthroughLayerFb layer);
 
     // https://registry.khronos.org/OpenXR/specs/1.0/man/html/xrPassthroughLayerSetStyleFB.html
-    internal delegate XrResult del_xrPassthroughLayerSetStyleFB(XrPassthroughLayerFB layer,
-        [In] XrPassthroughStyleFB style);
+    internal delegate XrResult DelXrPassthroughLayerSetStyleFb(XrPassthroughLayerFb layer,
+        [In] XrPassthroughStyleFb style);
 }

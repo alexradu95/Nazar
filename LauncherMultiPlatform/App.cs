@@ -21,7 +21,7 @@ public class App : IAppLauncher
     // Called before SK.Initialize is triggered
     public void PreInit()
     {
-        StepperManager.RegisterStepper<PassthroughFBExt>();
+        StepperManager.RegisterStepper<PassthroughFbExt>();
         StepperManager.RegisterStepper<RenderCamera>();
     }
 

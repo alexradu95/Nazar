@@ -14,13 +14,13 @@ namespace Framework.Steppers
             private bool _previewing;
             private bool _recording;
             private Pose _renderFrom;
-            public Pose at;
+            public Pose At;
 
-            private Color32[] buffer;
-            public float damping = 8;
+            private Color32[] _buffer;
+            public float Damping = 8;
 
-            public string folder = "Video";
-            public Pose from;
+            public string Folder = "Video";
+            public Pose From;
 
             public RenderCamera()
             {
@@ -28,9 +28,9 @@ namespace Framework.Steppers
                 Height = 500;
                 FrameRate = 12;
 
-                at = Pose.Identity;
-                from = new Pose(at.position + V.XYZ(0, 0, 0.1f) * at.orientation, at.orientation);
-                _renderFrom = at;
+                At = Pose.Identity;
+                From = new Pose(At.position + V.XYZ(0, 0, 0.1f) * At.orientation, At.orientation);
+                _renderFrom = At;
             }
 
             public int Width { get; }
@@ -56,8 +56,8 @@ namespace Framework.Steppers
             public void Step()
             {
                 UI.PushId("RenderCameraWidget");
-                UI.Handle("from", ref from, new Bounds(Vec3.One * 0.02f), true);
-                UI.HandleBegin("at", ref at, new Bounds(Vec3.One * 0.02f), true);
+                UI.Handle("from", ref From, new Bounds(Vec3.One * 0.02f), true);
+                UI.HandleBegin("at", ref At, new Bounds(Vec3.One * 0.02f), true);
                 UI.ToggleAt("On", ref _previewing, new Vec3(4, -2, 0) * U.cm, new Vec2(8 * U.cm, UI.LineHeight));
                 if (_previewing && UI.ToggleAt("Record", ref _recording, new Vec3(4, -6, 0) * U.cm,
                         new Vec2(8 * U.cm, UI.LineHeight)))
@@ -69,15 +69,15 @@ namespace Framework.Steppers
                 UI.HandleEnd();
                 UI.PopId();
 
-                float fov = 10 + Math.Max(0, Math.Min(1, (Vec3.Distance(from.position, at.position) - 0.1f) / 0.2f)) *
+                float fov = 10 + Math.Max(0, Math.Min(1, (Vec3.Distance(From.position, At.position) - 0.1f) / 0.2f)) *
                     110;
-                Vec3 previewAt = at.position + at.orientation * Vec3.Up * 0.06f;
-                Vec3 renderFrom = at.position + (at.position - from.position).Normalized * 0.06f;
-                _renderFrom = Pose.Lerp(_renderFrom, new Pose(renderFrom, Quat.LookDir(at.position - from.position)),
-                    Time.Stepf * damping);
+                Vec3 previewAt = At.position + At.orientation * Vec3.Up * 0.06f;
+                Vec3 renderFrom = At.position + (At.position - From.position).Normalized * 0.06f;
+                _renderFrom = Pose.Lerp(_renderFrom, new Pose(renderFrom, Quat.LookDir(At.position - From.position)),
+                    Time.Stepf * Damping);
 
-                Lines.Add(from.position, at.position, Color.White, 0.005f);
-                from.orientation = at.orientation = Quat.LookDir(from.position - at.position);
+                Lines.Add(From.position, At.position, Color.White, 0.005f);
+                From.orientation = At.orientation = Quat.LookDir(From.position - At.position);
 
 
                 if (_previewing)
@@ -102,11 +102,11 @@ namespace Framework.Steppers
                 if (_frameTime + rateTime < Time.TotalUnscaledf)
                 {
                     _frameTime = Time.TotalUnscaledf;
-                    _frameSurface.GetColors(ref buffer);
+                    _frameSurface.GetColors(ref _buffer);
 
-                    Directory.CreateDirectory(folder);
-                    Stream writer = new FileStream($"{folder}/image{_frameIndex:D4}.bmp", FileMode.Create);
-                    WriteBitmap(writer, _frameSurface.Width, _frameSurface.Height, buffer);
+                    Directory.CreateDirectory(Folder);
+                    Stream writer = new FileStream($"{Folder}/image{_frameIndex:D4}.bmp", FileMode.Create);
+                    WriteBitmap(writer, _frameSurface.Width, _frameSurface.Height, _buffer);
                     writer.Close();
                     _frameIndex += 1;
                 }

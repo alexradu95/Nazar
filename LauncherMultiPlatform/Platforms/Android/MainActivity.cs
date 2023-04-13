@@ -20,9 +20,9 @@ namespace LauncherMultiPlatform
         })]
     public class MainActivity : AppCompatActivity, ISurfaceHolderCallback2
     {
-        static bool running = false;
-        App app;
-        View surface;
+        static bool _running = false;
+        App _app;
+        View _surface;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -32,9 +32,9 @@ namespace LauncherMultiPlatform
             // Set up a surface for StereoKit to draw on
             Window.TakeSurface(this);
             Window.SetFormat(Format.Unknown);
-            surface = new(this);
-            SetContentView(surface);
-            surface.RequestFocus();
+            _surface = new(this);
+            SetContentView(_surface);
+            _surface.RequestFocus();
 
             base.OnCreate(savedInstanceState);
             Microsoft.Maui.ApplicationModel.Platform.Init(this, savedInstanceState);
@@ -51,9 +51,9 @@ namespace LauncherMultiPlatform
 
         void Run(IntPtr activityHandle)
         {
-            if (running)
+            if (_running)
                 return;
-            running = true;
+            _running = true;
 
             Task.Run(() =>
             {
@@ -61,22 +61,22 @@ namespace LauncherMultiPlatform
                 // we'll use that, and pass the command line arguments into it on
                 // creation
                 Type appType = typeof(App);
-                app = appType.GetConstructor(new Type[] {typeof(string[])}) != null
+                _app = appType.GetConstructor(new Type[] {typeof(string[])}) != null
                     ? (App) Activator.CreateInstance(appType, new object[] {new string[0] { }})
                     : (App) Activator.CreateInstance(appType);
-                if (app == null)
+                if (_app == null)
                     throw new System.Exception("StereoKit loader couldn't construct an instance of the App!");
 
                 // Initialize StereoKit, and the app
-                SKSettings settings = app.Settings;
+                SKSettings settings = _app.Settings;
                 settings.androidActivity = activityHandle;
-                app.PreInit();
+                _app.PreInit();
                 if (!SK.Initialize(settings))
                     return;
-                app.Init();
+                _app.Init();
 
                 // Now loop until finished, and then shut down
-                SK.Run(app.Step);
+                SK.Run(_app.Step);
 
                 Android.OS.Process.KillProcess(Android.OS.Process.MyPid());
             });

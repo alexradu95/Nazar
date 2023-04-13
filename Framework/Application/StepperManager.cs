@@ -7,17 +7,17 @@ namespace LauncherMultiPlatform;
 
 public class StepperManager : IStepperManager
 {
-    private readonly List<IStepper> registeredSteppers = new();
+    private readonly List<IStepper> _registeredSteppers = new();
 
-    public ReadOnlyCollection<IStepper> SteppersList => registeredSteppers.AsReadOnly();
+    public ReadOnlyCollection<IStepper> SteppersList => _registeredSteppers.AsReadOnly();
 
     public void RegisterStepper<T>() where T : IStepper
     {
-        registeredSteppers.Add(SK.AddStepper<T>());
+        _registeredSteppers.Add(SK.AddStepper<T>());
     }
 
     public void RegisterStepper<T>(T stepper) where T : IStepper
     {
-        registeredSteppers.Add(SK.AddStepper(stepper));
+        _registeredSteppers.Add(SK.AddStepper(stepper));
     }
 }

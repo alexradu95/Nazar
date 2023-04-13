@@ -9,20 +9,20 @@ namespace PubSub;
 
 public class PubSubPipelineFactory : IPubSubPipelineFactory
 {
-    private readonly MessagingHub hub;
+    private readonly MessagingHub _hub;
 
     public PubSubPipelineFactory()
     {
-        hub = new MessagingHub();
+        _hub = new MessagingHub();
     }
 
     public IPublisher GetPublisher()
     {
-        return new Publisher(hub);
+        return new Publisher(_hub);
     }
 
     public ISubscriber GetSubscriber()
     {
-        return new Subscriber(hub);
+        return new Subscriber(_hub);
     }
 }

@@ -5,16 +5,16 @@ namespace Framework.Steppers.Passthrough.OpenXRBindings.Structs;
 
 // https://registry.khronos.org/OpenXR/specs/1.0/man/html/XrPassthroughLayerCreateInfoFB.html
 [StructLayout(LayoutKind.Sequential)]
-internal struct XrPassthroughLayerCreateInfoFB
+internal struct XrPassthroughLayerCreateInfoFb
 {
     private readonly XrStructureType type;
     public readonly nint next;
-    public readonly XrPassthroughFB passthrough;
-    public readonly XrPassthroughFlagsFB flags;
-    public readonly XrPassthroughLayerPurposeFB purpose;
+    public readonly XrPassthroughFb passthrough;
+    public readonly XrPassthroughFlagsFb flags;
+    public readonly XrPassthroughLayerPurposeFb purpose;
 
-    public XrPassthroughLayerCreateInfoFB(XrPassthroughFB passthrough, XrPassthroughFlagsFB flags,
-        XrPassthroughLayerPurposeFB purpose)
+    public XrPassthroughLayerCreateInfoFb(XrPassthroughFb passthrough, XrPassthroughFlagsFb flags,
+        XrPassthroughLayerPurposeFb purpose)
     {
         type = XrStructureType.XR_TYPE_PASSTHROUGH_LAYER_CREATE_INFO_FB;
         next = nint.Zero;

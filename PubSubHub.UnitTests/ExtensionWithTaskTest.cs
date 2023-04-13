@@ -9,7 +9,7 @@ public class ExtensionWithTaskTest
     [TestMethod]
     public void Subscribe_With_Action_And_Func_Publish_All()
     {
-        MessagingHub hub = new MessagingHub();
+        MessagingHub hub = new();
         int callCount = 0;
 
         hub.Subscribe(new Action<Event>(a => callCount++));
@@ -34,7 +34,7 @@ public class ExtensionWithTaskTest
     [TestMethod]
     public void Subscribe_With_Action_And_Func_Publish_One_As_Async()
     {
-        MessagingHub hub = new MessagingHub();
+        MessagingHub hub = new();
         int callCount = 0;
 
         hub.Subscribe(new Action<Event>(a => callCount++));
@@ -59,7 +59,7 @@ public class ExtensionWithTaskTest
     [TestMethod]
     public void Subscribe_With_Action_And_Func_Publish_All_As_Async()
     {
-        MessagingHub hub = new MessagingHub();
+        MessagingHub hub = new();
         int callCount = 0;
 
         var action = new Action<Event>(a => callCount++);

@@ -70,7 +70,7 @@ public class CoreHubTests
     public void Publish_CleansUpBeforeSending()
     {
         // arrange
-        object liveSubscriber = new object();
+        object liveSubscriber = new();
 
         // act
         _hub.Subscribe(_condemnedSubscriber, new Action<string>(a => { }));
@@ -82,7 +82,7 @@ public class CoreHubTests
         _hub.Publish(default(string));
 
         // assert
-        Assert.AreEqual(1, _hub._handlerManager._handlers.Count);
+        Assert.AreEqual(1, _hub.HandlerManager.Handlers.Count);
         GC.KeepAlive(liveSubscriber);
     }
 
@@ -96,7 +96,7 @@ public class CoreHubTests
         _hub.Subscribe(_subscriber, action);
 
         // assert
-        Handler? h = _hub._handlerManager._handlers.First();
+        Handler? h = _hub.HandlerManager.Handlers.First();
         Assert.AreEqual(_subscriber, h.Sender.Target);
         Assert.AreEqual(action, h.Action);
         Assert.AreEqual(action.Method.GetParameters().First().ParameterType, h.Type);
@@ -111,8 +111,8 @@ public class CoreHubTests
         _hub.Unsubscribe(_subscriber);
 
         // assert
-        Assert.IsTrue(_hub._handlerManager._handlers.Any(a => a.Sender.Target == _preservedSubscriber));
-        Assert.IsFalse(_hub._handlerManager._handlers.Any(a => a.Sender.Target == _subscriber));
+        Assert.IsTrue(_hub.HandlerManager.Handlers.Any(a => a.Sender.Target == _preservedSubscriber));
+        Assert.IsFalse(_hub.HandlerManager.Handlers.Any(a => a.Sender.Target == _subscriber));
     }
 
     [TestMethod]
@@ -127,7 +127,7 @@ public class CoreHubTests
         _hub.Unsubscribe<string>(_subscriber);
 
         // assert
-        Assert.IsFalse(_hub._handlerManager._handlers.Any(a => a.Sender.Target == _subscriber));
+        Assert.IsFalse(_hub.HandlerManager.Handlers.Any(a => a.Sender.Target == _subscriber));
     }
 
     [TestMethod]
@@ -142,7 +142,7 @@ public class CoreHubTests
         _hub.Unsubscribe(_subscriber, actionToDie);
 
         // assert
-        Assert.IsFalse(_hub._handlerManager._handlers.Any(a => a.Action.Equals(actionToDie)));
+        Assert.IsFalse(_hub.HandlerManager.Handlers.Any(a => a.Action.Equals(actionToDie)));
     }
 
     [TestMethod]
@@ -173,7 +173,7 @@ public class CoreHubTests
         _hub.Unsubscribe<string>(_subscriber);
 
         // assert
-        Assert.AreEqual(0, _hub._handlerManager._handlers.Count);
+        Assert.AreEqual(0, _hub.HandlerManager.Handlers.Count);
     }
 
     [TestMethod]
@@ -182,7 +182,7 @@ public class CoreHubTests
         // arrange
         int callCount = 0;
         var action = new Action<Event>(a => callCount++);
-        MessagingHub myhub = new MessagingHub();
+        MessagingHub myhub = new();
 
         // this lies and subscribes to the static hub instead.
         myhub.Subscribe(new Action<Event>(a => callCount++));

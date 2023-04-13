@@ -9,7 +9,7 @@ public class ExtensionTests
     [TestMethod]
     public void Exists_Static()
     {
-        MessagingHub hub = new MessagingHub();
+        MessagingHub hub = new();
         var action = new Action<string>(a => { });
         hub.Subscribe(action);
 
@@ -25,7 +25,7 @@ public class ExtensionTests
     [TestMethod]
     public void NotExists_Static()
     {
-        MessagingHub hub = new MessagingHub();
+        MessagingHub hub = new();
         var action = new Action<bool>(a => { });
         hub.Subscribe(action);
 
@@ -41,7 +41,7 @@ public class ExtensionTests
     [TestMethod]
     public void PublishExtensions()
     {
-        MessagingHub hub = new MessagingHub();
+        MessagingHub hub = new ();
         int callCount = 0;
 
         hub.Subscribe(new Action<Event>(a => callCount++));
@@ -59,7 +59,7 @@ public class ExtensionTests
     [TestMethod]
     public void UnsubscribeExtensions()
     {
-        MessagingHub hub = new MessagingHub();
+        MessagingHub hub = new();
         int callCount = 0;
         var action = new Action<Event>(a => callCount++);
 
