@@ -65,6 +65,7 @@ namespace Launcher.Maui
                 // Initialize StereoKit, and the app
                 SKSettings settings = app.Settings;
                 settings.androidActivity = activityHandle;
+                app.PreInit();
                 if (!SK.Initialize(settings))
                     return;
                 app.Init();

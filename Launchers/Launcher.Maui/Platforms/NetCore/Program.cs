@@ -21,7 +21,7 @@ namespace Launcher.Maui
                 : (NazarApp)Activator.CreateInstance(appType);
             if (app == null)
                 throw new Exception("StereoKit loader couldn't construct an instance of the App!");
-
+            app.PreInit();
             // Initialize StereoKit, and the app
             if (!SK.Initialize(app.Settings))
                 Environment.Exit(1);
