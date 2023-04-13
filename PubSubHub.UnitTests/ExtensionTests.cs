@@ -1,107 +1,105 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PubSubHub.Hub;
 
-namespace PubSub.Tests
+namespace PubSub.Tests;
+
+[TestClass]
+public class ExtensionTests
 {
-    [TestClass]
-    public class ExtensionTests
+    [TestMethod]
+    public void Exists_Static()
     {
-        [TestMethod]
-        public void Exists_Static()
-        {
-            var hub = new MessagingHub();
-            var action = new Action<string>(a => { });
-            hub.Subscribe(action);
+        MessagingHub hub = new MessagingHub();
+        var action = new Action<string>(a => { });
+        hub.Subscribe(action);
 
-            // act
-            var exists = hub.Exists<string>();
+        // act
+        bool exists = hub.Exists<string>();
 
-            // assert
-            Assert.IsTrue(exists);
+        // assert
+        Assert.IsTrue(exists);
 
-            hub.Unsubscribe(action);
-        }
+        hub.Unsubscribe(action);
+    }
 
-        [TestMethod]
-        public void NotExists_Static()
-        {
-            var hub = new MessagingHub();
-            var action = new Action<bool>(a => { });
-            hub.Subscribe(action);
+    [TestMethod]
+    public void NotExists_Static()
+    {
+        MessagingHub hub = new MessagingHub();
+        var action = new Action<bool>(a => { });
+        hub.Subscribe(action);
 
-            // act
-            var exists = hub.Exists<string>();
+        // act
+        bool exists = hub.Exists<string>();
 
-            // assert
-            Assert.IsFalse(exists);
+        // assert
+        Assert.IsFalse(exists);
 
-            hub.Unsubscribe(action);
-        }
+        hub.Unsubscribe(action);
+    }
 
-        [TestMethod]
-        public void PublishExtensions()
-        {
-            var hub = new MessagingHub();
-            var callCount = 0;
+    [TestMethod]
+    public void PublishExtensions()
+    {
+        MessagingHub hub = new MessagingHub();
+        int callCount = 0;
 
-            hub.Subscribe(new Action<Event>(a => callCount++));
-            hub.Subscribe(new Action<Event>(a => callCount++));
+        hub.Subscribe(new Action<Event>(a => callCount++));
+        hub.Subscribe(new Action<Event>(a => callCount++));
 
-            // act
-            hub.Publish(new Event());
-            hub.Publish(new SpecialEvent());
-            hub.Publish<Event>();
+        // act
+        hub.Publish(new Event());
+        hub.Publish(new SpecialEvent());
+        hub.Publish<Event>();
 
-            // assert
-            Assert.AreEqual(6, callCount);
-        }
+        // assert
+        Assert.AreEqual(6, callCount);
+    }
 
-        [TestMethod]
-        public void UnsubscribeExtensions()
-        {
-            var hub = new MessagingHub();
-            var callCount = 0;
-            var action = new Action<Event>(a => callCount++);
+    [TestMethod]
+    public void UnsubscribeExtensions()
+    {
+        MessagingHub hub = new MessagingHub();
+        int callCount = 0;
+        var action = new Action<Event>(a => callCount++);
 
-            hub.Subscribe(new Action<Event>(a => callCount++));
-            hub.Subscribe(new Action<SpecialEvent>(a => callCount++));
-            hub.Subscribe(action);
+        hub.Subscribe(new Action<Event>(a => callCount++));
+        hub.Subscribe(new Action<SpecialEvent>(a => callCount++));
+        hub.Subscribe(action);
 
-            // act
-            hub.Publish(new Event());
-            hub.Publish(new SpecialEvent());
-            hub.Publish<Event>();
+        // act
+        hub.Publish(new Event());
+        hub.Publish(new SpecialEvent());
+        hub.Publish<Event>();
 
-            // assert
-            Assert.AreEqual(7, callCount);
+        // assert
+        Assert.AreEqual(7, callCount);
 
-            // unsubscribe
-            hub.Unsubscribe<SpecialEvent>();
+        // unsubscribe
+        hub.Unsubscribe<SpecialEvent>();
 
-            // act
-            hub.Publish<SpecialEvent>();
+        // act
+        hub.Publish<SpecialEvent>();
 
-            // assert
-            Assert.AreEqual(9, callCount);
+        // assert
+        Assert.AreEqual(9, callCount);
 
-            // unsubscribe specific action
-            hub.Unsubscribe(action);
+        // unsubscribe specific action
+        hub.Unsubscribe(action);
 
-            // act
-            hub.Publish<SpecialEvent>();
+        // act
+        hub.Publish<SpecialEvent>();
 
-            // assert
-            Assert.AreEqual(10, callCount);
+        // assert
+        Assert.AreEqual(10, callCount);
 
-            // unsubscribe from all
-            hub.Unsubscribe(hub);
+        // unsubscribe from all
+        hub.Unsubscribe(hub);
 
-            // act
-            hub.Publish<SpecialEvent>();
+        // act
+        hub.Publish<SpecialEvent>();
 
-            // assert
-            Assert.AreEqual(10, callCount);
-        }
+        // assert
+        Assert.AreEqual(10, callCount);
     }
 }

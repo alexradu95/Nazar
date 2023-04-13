@@ -1,56 +1,46 @@
 ﻿using Framework.SceneGraph.Interfaces;
 
-namespace Framework.SceneGraph.Behaviours
+namespace Framework.SceneGraph.Behaviours;
+
+internal class ChildrenManager : IChildContainer
 {
-    internal class ChildrenManager : IChildContainer
+    /// <summary>
+    ///     Child nodes under this node.
+    /// </summary>
+    public List<INode> ChildNodes { get; } = new();
+
+
+    public void AddChildNode(INode node)
     {
-        /// <summary>
-        /// Child nodes under this node.
-        /// </summary>
-        private readonly List<INode> childNodes = new();
-        public List<INode> ChildNodes { get => childNodes; }
-        public ChildrenManager() { }
+        ChildNodes.Add(node);
+        OnChildNodesListChange(node, true);
+    }
 
+    public void RemoveChildNode(INode node)
+    {
+        ChildNodes.Remove(node);
+        OnChildNodesListChange(node, false);
+    }
 
-        public void AddChildNode(INode node)
+    public INode FindChildNode(Guid identifier, bool searchInChildren = true)
+    {
+        foreach (INode node in ChildNodes)
         {
-            childNodes.Add(node);
-            OnChildNodesListChange(node, true);
-        }
+            // search in direct children
+            if (node.Id == identifier) return node;
 
-        public void RemoveChildNode(INode node)
-        {
-            childNodes.Remove(node);
-            OnChildNodesListChange(node, false);
-        }
-
-        public INode FindChildNode(Guid identifier, bool searchInChildren = true)
-        {
-            foreach (INode node in childNodes)
+            // recursive search
+            if (searchInChildren)
             {
-                // search in direct children
-                if (node.Id == identifier)
-                {
-                    return node;
-                }
-
-                // recursive search
-                if (searchInChildren)
-                {
-                    INode foundInChild = node.ChildContainer.FindChildNode(identifier, searchInChildren);
-                    if (foundInChild != null)
-                    {
-                        return foundInChild;
-                    }
-                }
+                INode foundInChild = node.ChildContainer.FindChildNode(identifier, searchInChildren);
+                if (foundInChild != null) return foundInChild;
             }
-
-            return null;
         }
 
-        virtual protected void OnChildNodesListChange(INode node, bool wasAdded)
-        {
-        }
+        return null;
+    }
 
+    protected virtual void OnChildNodesListChange(INode node, bool wasAdded)
+    {
     }
 }

@@ -1,7 +1,7 @@
 ﻿using PubSubHub.Hub;
-using PubSubHubExample.StockMarketBasicExample.StockMarketModule;
-using PubSubHub.Sub.Interfaces;
 using PubSubHub.Sub;
+using PubSubHub.Sub.Interfaces;
+using PubSubHubExample.StockMarketBasicExample.StockMarketModule;
 
 public class StockWatcher
 {
@@ -18,9 +18,7 @@ public class StockWatcher
     private void OnStockUpdate(Stock stock)
     {
         if (_symbols.Contains(stock.Symbol))
-        {
             Console.WriteLine($"Watcher for {_symbols}: Stock update: {stock.Symbol} - {stock.Price}");
-        }
     }
 
     public void StopWatching()

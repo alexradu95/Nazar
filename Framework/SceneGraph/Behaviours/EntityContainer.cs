@@ -9,24 +9,21 @@ namespace Framework.SceneGraph.Behaviours
 {
     internal class EntityContainer : IEntityContainer
     {
-
-        private List<IEntity> entities = new();
-
-        public List<IEntity> Entities => entities;
+        public List<IEntity> Entities { get; } = new();
 
         public void AddEntity(IEntity entity)
         {
-            entities.Add(entity);
+            Entities.Add(entity);
             OnEntitiesListChange(entity, true);
         }
 
         public void RemoveEntity(IEntity entity)
         {
-            entities.Remove(entity);
+            Entities.Remove(entity);
             OnEntitiesListChange(entity, false);
         }
 
-        virtual protected void OnEntitiesListChange(IEntity entity, bool wasAdded)
+        protected virtual void OnEntitiesListChange(IEntity entity, bool wasAdded)
         {
         }
     }

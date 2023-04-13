@@ -8,7 +8,7 @@ namespace LauncherMultiPlatform
     public class StepperManager : IStepperManager
     {
 
-        private List<IStepper> registeredSteppers = new();
+        private readonly List<IStepper> registeredSteppers = new();
 
         public ReadOnlyCollection<IStepper> SteppersList => registeredSteppers.AsReadOnly();
 

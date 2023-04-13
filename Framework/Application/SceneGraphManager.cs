@@ -1,8 +1,7 @@
 ﻿using Framework.Application.Interfaces;
 
-namespace LauncherMultiPlatform
+namespace LauncherMultiPlatform;
+
+public class SceneGraphManager : ISceneGraph
 {
-    public class SceneGraphManager : ISceneGraph
-    {
-    }
 }

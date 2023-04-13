@@ -1,16 +1,13 @@
-﻿using StereoKit;
+﻿namespace Framework.SceneGraph.Interfaces;
 
-namespace Framework.SceneGraph.Interfaces
+public interface INode
 {
-    public interface INode
-    {
-        INode Parent { get; }
-        ITransform Transform { get; }
-        IChildContainer ChildContainer { get; }
-        IEntityContainer EntityContainer { get; }
-        void Draw();
-        void ForceUpdate(bool recursive = true);
-        bool Enabled { get; set; }
-        Guid Id { get; set; }
-    }
+    INode Parent { get; }
+    ITransform Transform { get; }
+    IChildContainer ChildContainer { get; }
+    IEntityContainer EntityContainer { get; }
+    bool Enabled { get; set; }
+    Guid Id { get; set; }
+    void Draw();
+    void ForceUpdate(bool recursive = true);
 }

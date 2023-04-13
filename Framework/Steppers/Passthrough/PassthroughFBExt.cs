@@ -10,108 +10,115 @@ using Framework.Steppers.Passthrough.OpenXRBindings.Structs;
 using StereoKit;
 using StereoKit.Framework;
 
-namespace Framework.Steppers.Passthrough
+namespace Framework.Steppers.Passthrough;
+
+public class PassthroughFBExt : IStepper
 {
-    public class PassthroughFBExt : IStepper
+    private XrPassthroughLayerFB activeLayer;
+    private XrPassthroughFB activePassthrough;
+    private bool enabled;
+    private bool enabledPassthrough;
+    private readonly bool enableOnInitialize;
+
+    private Color oldColor;
+    private bool oldSky;
+    private readonly PassthroughOpenXRBindings openXRBindings = new();
+    private bool passthroughRunning;
+
+    public PassthroughFBExt() : this(true)
     {
-        bool extAvailable;
-        bool enabled;
-        bool enabledPassthrough;
-        bool enableOnInitialize;
-        bool passthroughRunning;
-        XrPassthroughFB activePassthrough = new XrPassthroughFB();
-        XrPassthroughLayerFB activeLayer = new XrPassthroughLayerFB();
-        PassthroughOpenXRBindings openXRBindings = new PassthroughOpenXRBindings();
+    }
 
-        Color oldColor;
-        bool oldSky;
+    public PassthroughFBExt(bool enabled = true)
+    {
+        if (SK.IsInitialized)
+            Log.Err("PassthroughFBExt must be constructed before StereoKit is initialized!");
+        Backend.OpenXR.RequestExt("XR_FB_passthrough");
+        enableOnInitialize = enabled;
+    }
 
-        public bool Available => extAvailable;
-        public bool Enabled { get => extAvailable && enabled; set => enabled = value; }
-        public bool EnabledPassthrough
+    public bool Available { get; private set; }
+
+    public bool EnabledPassthrough
+    {
+        get => enabledPassthrough;
+        set
         {
-            get => enabledPassthrough; set
+            if (Available && enabledPassthrough != value)
             {
-                if (Available && enabledPassthrough != value)
-                {
-                    enabledPassthrough = value;
-                    if (enabledPassthrough) StartPassthrough();
-                    if (!enabledPassthrough) EndPassthrough();
-                }
+                enabledPassthrough = value;
+                if (enabledPassthrough) StartPassthrough();
+                if (!enabledPassthrough) EndPassthrough();
             }
         }
+    }
 
-        public PassthroughFBExt() : this(true) { }
-        public PassthroughFBExt(bool enabled = true)
-        {
-            if (SK.IsInitialized)
-                Log.Err("PassthroughFBExt must be constructed before StereoKit is initialized!");
-            Backend.OpenXR.RequestExt("XR_FB_passthrough");
-            enableOnInitialize = enabled;
-        }
+    public bool Enabled
+    {
+        get => Available && enabled;
+        set => enabled = value;
+    }
 
-        public bool Initialize()
-        {
-            extAvailable =
-                Backend.XRType == BackendXRType.OpenXR &&
-                Backend.OpenXR.ExtEnabled("XR_FB_passthrough") &&
-                openXRBindings.LoadOpenXRBindings();
+    public bool Initialize()
+    {
+        Available =
+            Backend.XRType == BackendXRType.OpenXR &&
+            Backend.OpenXR.ExtEnabled("XR_FB_passthrough") &&
+            openXRBindings.LoadOpenXRBindings();
 
-            if (enableOnInitialize)
-                EnabledPassthrough = true;
-            return true;
-        }
+        if (enableOnInitialize)
+            EnabledPassthrough = true;
+        return true;
+    }
 
-        public void Step()
-        {
-            if (!EnabledPassthrough) return;
+    public void Step()
+    {
+        if (!EnabledPassthrough) return;
 
-            XrCompositionLayerPassthroughFB layer = new XrCompositionLayerPassthroughFB(
-                XrCompositionLayerFlags.BLEND_TEXTURE_SOURCE_ALPHA_BIT, activeLayer);
-            Backend.OpenXR.AddCompositionLayer(layer, -1);
-        }
+        XrCompositionLayerPassthroughFB layer = new(
+            XrCompositionLayerFlags.BLEND_TEXTURE_SOURCE_ALPHA_BIT, activeLayer);
+        Backend.OpenXR.AddCompositionLayer(layer, -1);
+    }
 
-        public void Shutdown()
-        {
-            EnabledPassthrough = false;
-        }
+    public void Shutdown()
+    {
+        EnabledPassthrough = false;
+    }
 
-        void StartPassthrough()
-        {
-            if (!extAvailable) return;
-            if (passthroughRunning) return;
-            passthroughRunning = true;
+    private void StartPassthrough()
+    {
+        if (!Available) return;
+        if (passthroughRunning) return;
+        passthroughRunning = true;
 
-            oldColor = Renderer.ClearColor;
-            oldSky = Renderer.EnableSky;
+        oldColor = Renderer.ClearColor;
+        oldSky = Renderer.EnableSky;
 
-            XrResult result = openXRBindings.xrCreatePassthroughFB(
-                Backend.OpenXR.Session,
-                new XrPassthroughCreateInfoFB(XrPassthroughFlagsFB.IS_RUNNING_AT_CREATION_BIT_FB),
-                out activePassthrough);
+        XrResult result = openXRBindings.xrCreatePassthroughFB(
+            Backend.OpenXR.Session,
+            new XrPassthroughCreateInfoFB(XrPassthroughFlagsFB.IS_RUNNING_AT_CREATION_BIT_FB),
+            out activePassthrough);
 
-            result = openXRBindings.xrCreatePassthroughLayerFB(
-                Backend.OpenXR.Session,
-                new XrPassthroughLayerCreateInfoFB(activePassthrough, XrPassthroughFlagsFB.IS_RUNNING_AT_CREATION_BIT_FB, XrPassthroughLayerPurposeFB.RECONSTRUCTION_FB),
-                out activeLayer);
+        result = openXRBindings.xrCreatePassthroughLayerFB(
+            Backend.OpenXR.Session,
+            new XrPassthroughLayerCreateInfoFB(activePassthrough, XrPassthroughFlagsFB.IS_RUNNING_AT_CREATION_BIT_FB,
+                XrPassthroughLayerPurposeFB.RECONSTRUCTION_FB),
+            out activeLayer);
 
-            Renderer.ClearColor = Color.BlackTransparent;
-            Renderer.EnableSky = false;
-        }
+        Renderer.ClearColor = Color.BlackTransparent;
+        Renderer.EnableSky = false;
+    }
 
-        void EndPassthrough()
-        {
-            if (!passthroughRunning) return;
-            passthroughRunning = false;
+    private void EndPassthrough()
+    {
+        if (!passthroughRunning) return;
+        passthroughRunning = false;
 
-            openXRBindings.xrPassthroughPauseFB(activePassthrough);
-            openXRBindings.xrDestroyPassthroughLayerFB(activeLayer);
-            openXRBindings.xrDestroyPassthroughFB(activePassthrough);
+        openXRBindings.xrPassthroughPauseFB(activePassthrough);
+        openXRBindings.xrDestroyPassthroughLayerFB(activeLayer);
+        openXRBindings.xrDestroyPassthroughFB(activePassthrough);
 
-            Renderer.ClearColor = oldColor;
-            Renderer.EnableSky = oldSky;
-        }
-
-
+        Renderer.ClearColor = oldColor;
+        Renderer.EnableSky = oldSky;
     }
 }

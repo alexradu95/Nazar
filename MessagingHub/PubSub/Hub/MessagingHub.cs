@@ -4,21 +4,21 @@ using System.Threading.Tasks;
 namespace PubSubHub.Hub;
 
 /// <summary>
-/// Represents the main class for the PubSub pattern, providing methods for publishing and subscribing
-/// to events. This class uses a singleton pattern for a default instance, but can also be instantiated directly.
+///     Represents the main class for the PubSub pattern, providing methods for publishing and subscribing
+///     to events. This class uses a singleton pattern for a default instance, but can also be instantiated directly.
 /// </summary>
 public class MessagingHub
 {
-    public readonly HandlerManager _handlerManager = new();
     private static MessagingHub _default;
+    public readonly HandlerManager _handlerManager = new();
 
     /// <summary>
-    /// Gets the default Hub instance, which is created lazily on first access.
+    ///     Gets the default Hub instance, which is created lazily on first access.
     /// </summary>
     public static MessagingHub Default => _default ??= new MessagingHub();
 
     /// <summary>
-    /// Publishes an event of the specified data type, executing all subscribed handlers synchronously.
+    ///     Publishes an event of the specified data type, executing all subscribed handlers synchronously.
     /// </summary>
     /// <typeparam name="T">The data type of the event.</typeparam>
     /// <param name="data">The data associated with the event. Defaults to the default value of the data type.</param>
@@ -28,7 +28,7 @@ public class MessagingHub
     }
 
     /// <summary>
-    /// Publishes an event of the specified data type, executing all subscribed handlers asynchronously.
+    ///     Publishes an event of the specified data type, executing all subscribed handlers asynchronously.
     /// </summary>
     /// <typeparam name="T">The data type of the event.</typeparam>
     /// <param name="data">The data associated with the event. Defaults to the default value of the data type.</param>
@@ -38,7 +38,8 @@ public class MessagingHub
     }
 
     /// <summary>
-    /// Subscribes the current instance to an event of the specified data type, providing an action to be executed when the event is published.
+    ///     Subscribes the current instance to an event of the specified data type, providing an action to be executed when the
+    ///     event is published.
     /// </summary>
     /// <typeparam name="T">The data type of the event.</typeparam>
     /// <param name="handler">The action to be executed when the event is published.</param>
@@ -48,7 +49,8 @@ public class MessagingHub
     }
 
     /// <summary>
-    /// Subscribes the current instance to an event of the specified data type, providing an asynchronous function to be executed when the event is published.
+    ///     Subscribes the current instance to an event of the specified data type, providing an asynchronous function to be
+    ///     executed when the event is published.
     /// </summary>
     /// <typeparam name="T">The data type of the event.</typeparam>
     /// <param name="handler">The asynchronous function to be executed when the event is published.</param>
@@ -58,7 +60,8 @@ public class MessagingHub
     }
 
     /// <summary>
-    /// Subscribes a specified subscriber to an event of the specified data type, providing an action to be executed when the event is published.
+    ///     Subscribes a specified subscriber to an event of the specified data type, providing an action to be executed when
+    ///     the event is published.
     /// </summary>
     /// <typeparam name="T">The data type of the event.</typeparam>
     /// <param name="subscriber">The subscriber to be notified of the event.</param>
@@ -69,7 +72,8 @@ public class MessagingHub
     }
 
     /// <summary>
-    /// Subscribes a specified subscriber to an event of the specified data type, providing an asynchronous function to be executed when the event is published.
+    ///     Subscribes a specified subscriber to an event of the specified data type, providing an asynchronous function to be
+    ///     executed when the event is published.
     /// </summary>
     /// <typeparam name="T">The data type of the event.</typeparam>
     /// <param name="subscriber">The subscriber to be notified of the event.</param>
@@ -80,7 +84,7 @@ public class MessagingHub
     }
 
     /// <summary>
-    /// Unsubscribes the current instance from a specific event handler.
+    ///     Unsubscribes the current instance from a specific event handler.
     /// </summary>
     /// <param name="handler">The specific event handler to unsubscribe from.</param>
     public void Unsubscribe(Delegate handler)
@@ -89,7 +93,7 @@ public class MessagingHub
     }
 
     /// <summary>
-    /// Unsubscribes a specified subscriber from all events, with an optional handler filter.
+    ///     Unsubscribes a specified subscriber from all events, with an optional handler filter.
     /// </summary>
     /// <param name="subscriber">The subscriber to be unsubscribed from events.</param>
     /// <param name="handler">An optional handler filter to limit the unsubscription.</param>
@@ -99,7 +103,7 @@ public class MessagingHub
     }
 
     /// <summary>
-    /// Unsubscribes the current instance from all events of the specified data type.
+    ///     Unsubscribes the current instance from all events of the specified data type.
     /// </summary>
     /// <typeparam name="T">The data type of the event.</typeparam>
     public void Unsubscribe<T>()
@@ -108,7 +112,7 @@ public class MessagingHub
     }
 
     /// <summary>
-    /// Unsubscribes the current instance from a specific event handler of the specified data type.
+    ///     Unsubscribes the current instance from a specific event handler of the specified data type.
     /// </summary>
     /// <typeparam name="T">The data type of the event.</typeparam>
     /// <param name="handler">The specific event handler to unsubscribe from.</param>
@@ -118,7 +122,7 @@ public class MessagingHub
     }
 
     /// <summary>
-    /// Unsubscribes a specified subscriber from all events of the specified data type, with an optional handler filter.
+    ///     Unsubscribes a specified subscriber from all events of the specified data type, with an optional handler filter.
     /// </summary>
     /// <typeparam name="T">The data type of the event.</typeparam>
     /// <param name="subscriber">The subscriber to be unsubscribed from events of the specified data type.</param>
@@ -129,7 +133,7 @@ public class MessagingHub
     }
 
     /// <summary>
-    /// Checks if a handler exists for the specified data type on the current instance.
+    ///     Checks if a handler exists for the specified data type on the current instance.
     /// </summary>
     /// <typeparam name="T">The data type of the event.</typeparam>
     /// <returns>true if a handler exists; otherwise, false.</returns>
@@ -139,7 +143,7 @@ public class MessagingHub
     }
 
     /// <summary>
-    /// Checks if a handler exists for the specified data type on a specified subscriber.
+    ///     Checks if a handler exists for the specified data type on a specified subscriber.
     /// </summary>
     /// <typeparam name="T">The data type of the event.</typeparam>
     /// <param name="subscriber">The subscriber to check for event handlers.</param>
@@ -151,7 +155,7 @@ public class MessagingHub
 
 
     /// <summary>
-    /// Checks if a specific handler exists for the specified data type on a specified subscriber.
+    ///     Checks if a specific handler exists for the specified data type on a specified subscriber.
     /// </summary>
     /// <typeparam name="T">The data type of the event.</typeparam>
     /// <param name="subscriber">The subscriber to check for the specific event handler.</param>
@@ -162,5 +166,3 @@ public class MessagingHub
         return _handlerManager.HandlerExists(subscriber, handler);
     }
 }
-
-

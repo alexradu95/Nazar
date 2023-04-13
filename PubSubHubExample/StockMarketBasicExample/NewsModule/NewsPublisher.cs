@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using PubSubHub.Hub;
-using PubSubHub.Pub.Interfaces;
+﻿using PubSubHub.Pub.Interfaces;
 using PubSubHubExample.StockMarketBasicExample.NewsModule;
 
 public class NewsPublisher
 {
-    private readonly IPublisher _publisher;
     private readonly List<News> _newsList;
-    private readonly Random _random = new Random();
+    private readonly IPublisher _publisher;
+    private readonly Random _random = new();
     private Timer _timer;
 
     public NewsPublisher(IPublisher publisher, List<News> newsList)
@@ -35,4 +31,3 @@ public class NewsPublisher
         Console.WriteLine($"News published: {_newsList[index].Headline}");
     }
 }
-

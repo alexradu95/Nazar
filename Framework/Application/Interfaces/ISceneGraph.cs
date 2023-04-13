@@ -1,6 +1,5 @@
-﻿namespace Framework.Application.Interfaces
+﻿namespace Framework.Application.Interfaces;
+
+public interface ISceneGraph
 {
-    public interface ISceneGraph
-    {
-    }
 }

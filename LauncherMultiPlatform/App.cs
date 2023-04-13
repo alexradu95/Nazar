@@ -3,41 +3,36 @@ using Framework.Application.Interfaces;
 using Framework.Steppers.Passthrough;
 using Framework.Steppers.StereoKit.Framework;
 using StereoKit;
-using StereoKit.Framework;
 
-namespace LauncherMultiPlatform
+namespace LauncherMultiPlatform;
+
+public class App : IAppLauncher
 {
-    public class App : IAppLauncher
+    public SKSettings Settings => new()
     {
-        public SKSettings Settings => new SKSettings
-        {
-            appName = "NazarLaboratory",
-            assetsFolder = "Assets",
-            displayPreference = DisplayMode.MixedReality
-        };
+        appName = "NazarLaboratory",
+        assetsFolder = "Assets",
+        displayPreference = DisplayMode.MixedReality
+    };
 
-        public IStepperManager StepperManager => new StepperManager();
-        public ISceneGraph SceneGraphManager => new SceneGraphManager();
+    public IStepperManager StepperManager => new StepperManager();
+    public ISceneGraph SceneGraphManager => new SceneGraphManager();
 
-        // Called before SK.Initialize is triggered
-        public void PreInit()
-        {
-            StepperManager.RegisterStepper<PassthroughFBExt>();
-            StepperManager.RegisterStepper<RenderCamera>();
+    // Called before SK.Initialize is triggered
+    public void PreInit()
+    {
+        StepperManager.RegisterStepper<PassthroughFBExt>();
+        StepperManager.RegisterStepper<RenderCamera>();
+    }
 
-        }
+    // Called after SK.Initialize is triggered
+    public void Init()
+    {
+        StepperManager.RegisterStepper(HandMenuGenerator.BuildHandMenu());
+    }
 
-        // Called after SK.Initialize is triggered
-        public void Init()
-        {
-            StepperManager.RegisterStepper(HandMenuGenerator.BuildHandMenu());
-        }
-
-        // This Step method will be called every frame of the application
-        public void Step()
-        {
-
-        }
-
+    // This Step method will be called every frame of the application
+    public void Step()
+    {
     }
 }

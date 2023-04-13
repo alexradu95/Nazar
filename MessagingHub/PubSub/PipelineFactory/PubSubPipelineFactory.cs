@@ -5,19 +5,24 @@ using PubSubHub.Pub.Interfaces;
 using PubSubHub.Sub;
 using PubSubHub.Sub.Interfaces;
 
-namespace PubSub
+namespace PubSub;
+
+public class PubSubPipelineFactory : IPubSubPipelineFactory
 {
-    public class PubSubPipelineFactory : IPubSubPipelineFactory
+    private readonly MessagingHub hub;
+
+    public PubSubPipelineFactory()
     {
-        private readonly MessagingHub hub;
+        hub = new MessagingHub();
+    }
 
-        public PubSubPipelineFactory()
-        {
-            hub = new MessagingHub();
-        }
+    public IPublisher GetPublisher()
+    {
+        return new Publisher(hub);
+    }
 
-        public IPublisher GetPublisher() => new Publisher(hub);
-
-        public ISubscriber GetSubscriber() => new Subscriber(hub);
+    public ISubscriber GetSubscriber()
+    {
+        return new Subscriber(hub);
     }
 }

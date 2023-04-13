@@ -1,8 +1,6 @@
-﻿namespace PubSubHubExample.StockMarketBasicExample.NewsModule;
+﻿using PubSubHub.Sub.Interfaces;
 
-using System;
-using PubSubHub.Hub;
-using PubSubHub.Sub.Interfaces;
+namespace PubSubHubExample.StockMarketBasicExample.NewsModule;
 
 public class NewsWatcher
 {
@@ -13,10 +11,7 @@ public class NewsWatcher
         _subscriber = subscriber;
         _subscriber.Subscribe<News>(this, news =>
         {
-            if (news.Symbol == symbol)
-            {
-                Console.WriteLine($"News for {symbol}: {news.Headline}");
-            }
+            if (news.Symbol == symbol) Console.WriteLine($"News for {symbol}: {news.Headline}");
         });
     }
 
@@ -25,5 +20,3 @@ public class NewsWatcher
         _subscriber.Unsubscribe<News>(this);
     }
 }
-
-

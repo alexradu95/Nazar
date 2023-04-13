@@ -2,9 +2,9 @@
 
 public class RandomStockGenerator
 {
+    private readonly Random _random = new();
     private readonly StockMarket _stockMarket;
     private readonly List<Stock> _stocks;
-    private readonly Random _random = new Random();
     private bool _running = true;
 
     public RandomStockGenerator(StockMarket stockMarket, List<Stock> stocks)
@@ -15,7 +15,7 @@ public class RandomStockGenerator
 
     public void Start()
     {
-        Thread thread = new Thread(GenerateStockUpdates);
+        Thread thread = new(GenerateStockUpdates);
         thread.Start();
     }
 
@@ -37,4 +37,3 @@ public class RandomStockGenerator
         _running = false;
     }
 }
-

@@ -15,9 +15,9 @@ namespace LauncherMultiPlatform
             // we'll use that, and pass the command line arguments into it on
             // creation
             Type appType = typeof(App);
-            App app = appType.GetConstructor(new Type[] { typeof(string[]) }) != null
-                ? (App)Activator.CreateInstance(appType, new object[] { args })
-                : (App)Activator.CreateInstance(appType);
+            App app = appType.GetConstructor(new Type[] {typeof(string[])}) != null
+                ? (App) Activator.CreateInstance(appType, new object[] {args})
+                : (App) Activator.CreateInstance(appType);
             if (app == null)
                 throw new Exception("StereoKit loader couldn't construct an instance of the App!");
 
