@@ -24,4 +24,8 @@
 	  <UpToDateCheckInput Remove="Assets\**" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Agent\" />
+	</ItemGroup>
+
 </Project>
