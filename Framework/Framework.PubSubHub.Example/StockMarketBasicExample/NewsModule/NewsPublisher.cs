@@ -1,6 +1,6 @@
 ﻿using Framework.PubSubHub.Interfaces;
 
-namespace PubSubHub.Example.StockMarketBasicExample.NewsModule
+namespace Nazar.PubSubHub.Example.StockMarketBasicExample.NewsModule
 {
     public class NewsPublisher
     {

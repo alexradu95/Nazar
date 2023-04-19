@@ -1,8 +1,8 @@
 ﻿using Framework.PubSubHub;
 using Framework.PubSubHub.Hub;
 using Framework.PubSubHub.Interfaces;
-using PubSubHub.Example.StockMarketBasicExample.NewsModule;
-using PubSubHub.Example.StockMarketBasicExample.StockMarketModule;
+using Nazar.PubSubHub.Example.StockMarketBasicExample.NewsModule;
+using Nazar.PubSubHub.Example.StockMarketBasicExample.StockMarketModule;
 
 internal class Program
 {

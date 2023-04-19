@@ -1,15 +1,15 @@
-﻿using Nazar;
+﻿using Nazar.Launcher.NetCore;
 using StereoKit;
 using System;
 
-App app = new App();
+App app = new();
 
-app.PreInit();
+app.RegisterPreInitModules();
 
 if (!SK.Initialize(app.Settings))
     Environment.Exit(1);
 
-app.Init();
+app.RegisterPostInitModules();
 
 // Core application loop
 SK.Run(() =>

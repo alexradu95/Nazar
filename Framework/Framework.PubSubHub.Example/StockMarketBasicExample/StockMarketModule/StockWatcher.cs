@@ -1,7 +1,7 @@
 ﻿using Framework.PubSubHub;
 using Framework.PubSubHub.Hub;
 using Framework.PubSubHub.Interfaces;
-using PubSubHub.Example.StockMarketBasicExample.StockMarketModule;
+using Nazar.PubSubHub.Example.StockMarketBasicExample.StockMarketModule;
 
 public class StockWatcher
 {

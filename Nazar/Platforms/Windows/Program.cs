@@ -1,7 +1,7 @@
 ﻿using StereoKit;
 using System;
 
-namespace Nazar
+namespace Nazar.Platforms.Windows
 {
     public static class Program
     {

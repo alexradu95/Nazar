@@ -1,4 +1,4 @@
-﻿namespace PubSubHub.Example.StockMarketBasicExample.StockMarketModule;
+﻿namespace Nazar.PubSubHub.Example.StockMarketBasicExample.StockMarketModule;
 
 public class RandomStockGenerator
 {

@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PubSubHub.PipelineFactory.PubSub;
 
-namespace PubSubHub.UnitTests;
+namespace Nazar.PubSubHub.UnitTests;
 
 [TestClass]
 public class IocExtensionsTests
