@@ -26,14 +26,14 @@
 	<uses-feature android:name="wave.feature.tracker"      android:required="false"/>
 
 	<!-- Oculus specific items -->
-	<uses-permission android:name="com.oculus.permission.HAND_TRACKING" android:required="false"/>
-	<uses-feature    android:name="oculus.software.handtracking"        android:required="false"/>
-	<uses-feature    android:name="com.oculus.feature.PASSTHROUGH"      android:required="false"/>
+	<uses-permission android:name="com.oculus.permission.HAND_TRACKING" android:required="true"/>
+	<uses-feature    android:name="oculus.software.handtracking"        android:required="true"/>
+	<uses-feature    android:name="com.oculus.feature.PASSTHROUGH"      android:required="true"/>
 	<uses-feature    android:name="com.oculus.software.body_tracking"   android:required="false"/>
 	<uses-permission android:name="com.oculus.permission.BODY_TRACKING" android:required="false"/>
 	<uses-feature    android:name="oculus.software.face_tracking"       android:required="false"/>
 	<uses-permission android:name="com.oculus.permission.FACE_TRACKING" android:required="false"/>
 	<uses-feature    android:name="oculus.software.eye_tracking"        android:required="false"/>
 	<uses-permission android:name="com.oculus.permission.EYE_TRACKING"  android:required="false"/>
-	<uses-feature    android:name="com.oculus.experimental.enabled"     android:required="false"/>
+	<uses-feature    android:name="com.oculus.experimental.enabled"     android:required="true"/>
 </manifest>

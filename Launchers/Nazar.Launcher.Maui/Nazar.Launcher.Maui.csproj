@@ -15,7 +15,7 @@
 		
 		<!-- App Identifier -->
 		<ApplicationId>com.companyname.Nazar.Launcher.Maui</ApplicationId>
-		<ApplicationIdGuid>5A766B45-92B3-4358-B8C9-5FF59BDD685D</ApplicationIdGuid>
+		<ApplicationIdGuid>7BA53D72-902E-4D25-B997-3DF1F3C580A6</ApplicationIdGuid>
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
@@ -42,7 +42,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Nazar\Nazar.csproj" />
+	  <ProjectReference Include="..\..\Nazar\Nazar.csproj" />
 	</ItemGroup>
 
 </Project>

@@ -8,7 +8,7 @@ namespace Nazar.CoreModules.Passthrough
 {
     public class PassthroughModule : IAutonomousStepperModule
     {
-        public string Name => "AvatarSkeleton";
+        public string Name => "PassthroughModule";
 
         public Node RootNode => null;
 

@@ -1,4 +1,5 @@
 ﻿using Nazar.CoreModules.AvatarSkeleton;
+using Nazar.CoreModules.Passthrough;
 using Nazar.Framework;
 using StereoKit;
 
@@ -18,14 +19,14 @@ public class App : NazarApplication
 
     public override bool RegisterPreInitModules()
     {
-        RegisterModule<AvatarSkeletonModule>();
 
+        RegisterModule<PassthroughModule>();
         return true;
     }
 
     public override bool RegisterPostInitModules()
     {
-        //throw new System.NotImplementedException();
+        RegisterModule<AvatarSkeletonModule>();
         return true;
     }
 }
