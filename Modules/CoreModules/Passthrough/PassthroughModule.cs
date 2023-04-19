@@ -1,36 +1,22 @@
-﻿using Nazar.Framework.Interfaces;
+﻿using Nazar.Framework;
+using Nazar.Framework.Interfaces;
 using Nazar.PubSubHub.Hub;
-using Nazar.SceneGraph;
 using StereoKit;
-using StereoKit.Framework;
 
 namespace Nazar.CoreModules.Passthrough
 {
-    public class PassthroughModule : IAutonomousStepperModule
+    public class PassthroughModule : BaseAutonomousModule
     {
-        public string Name => "PassthroughModule";
+        public override string Name => "PassthroughModule";
 
-        public Node RootNode => null;
-
-        public MessagingHub InternalMessagingHub => null;
-
-        private IStepper _stepper;
-        public IStepper StereoKitStepper => _stepper;
-
-        bool IAutonomousModule.IsEnabled { get => true; set => throw new NotImplementedException(); }
-        public bool NodeIsEnabled { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public override MessagingHub ExternalMessagingHub { get; }
 
         public PassthroughModule()
         {
-            _stepper = SK.AddStepper<PassthroughStepper>();
+            SK.AddStepper<PassthroughStepper>();
         }
 
-        public void Step()
-        {
-
-        }
-
-        public void Shutdown()
+        public override void Shutdown()
         {
             SK.RemoveStepper<PassthroughStepper>();
         }

@@ -2,8 +2,6 @@
 using Nazar.CoreModules.Passthrough;
 using Nazar.Framework;
 using StereoKit;
-using StereoKit.Framework;
-using System.Reflection;
 
 namespace Nazar;
 
@@ -21,7 +19,6 @@ public class App : NazarApplication
 
     public override bool RegisterPreInitModules()
     {
-
         RegisterModule<PassthroughModule>();
         return true;
     }
@@ -30,8 +27,7 @@ public class App : NazarApplication
     {
         RegisterModule<AvatarSkeletonModule>();
 
-
-        GenerateHandMenu();
+        RegisterHandMenuFromModules();
         return true;
     }
 

@@ -1,4 +1,6 @@
 ﻿
+using Nazar.CoreModules.Passthrough;
+using Nazar.Framework;
 using Nazar.Framework.Interfaces;
 using Nazar.PubSubHub.Hub;
 using Nazar.SceneGraph;
@@ -7,33 +9,16 @@ using StereoKit.Framework;
 
 namespace Nazar.CoreModules.AvatarSkeleton
 {
-    public class AvatarSkeletonModule : IAutonomousStepperModule
+    public class AvatarSkeletonModule : BaseAutonomousModule
     {
-        public string Name => "AvatarSkeleton";
-
-        public Node RootNode => null;
-
-        public MessagingHub InternalMessagingHub => null;
-
-        private IStepper _stepper;
-        public IStepper StereoKitStepper => _stepper;
-
-        bool IAutonomousModule.IsEnabled { get => true; set => throw new NotImplementedException(); }
-
-        private bool nodeIsEnabled = true;
-        public bool NodeIsEnabled { get => nodeIsEnabled; set => nodeIsEnabled = value; }
+        public override string Name => "AvatarSkeleton";
 
         public AvatarSkeletonModule()
         {
-            _stepper = SK.AddStepper<AvatarSkeletonStepper>();
+            SK.AddStepper<AvatarSkeletonStepper>();
         }
 
-        public void Step()
-        {
-            
-        }
-
-        public void Shutdown()
+        public override void Shutdown()
         {
             SK.RemoveStepper<AvatarSkeletonStepper>();
         }
