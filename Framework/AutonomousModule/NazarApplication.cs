@@ -1,4 +1,7 @@
 ﻿using Nazar.Framework.Interfaces;
+using StereoKit;
+using StereoKit.Framework;
+using System.Reflection;
 
 namespace Nazar.Framework
 {
@@ -6,9 +9,22 @@ namespace Nazar.Framework
     {
         private Dictionary<Type, IAutonomousModule> _modules;
 
+        private HandMenuRadial handMenu;
+
         public NazarApplication()
         {
             _modules = new Dictionary<Type, IAutonomousModule>();
+        }
+
+        public void GenerateHandMenu() => SK.AddStepper(new HandMenuRadial(GenerateModuleLayer()));
+
+        private HandRadialLayer GenerateModuleLayer()
+        {
+            var layerItems = _modules.Values.Select(module => new HandMenuItem(module.Name, null, () => module.IsEnabled = !module.IsEnabled))
+            .Concat(new[] { new HandMenuItem("Back", null, null, HandMenuAction.Back) })
+            .ToArray();
+
+            return new HandRadialLayer("Modules", layerItems);
         }
 
         public void RegisterModule<T>() where T : IAutonomousModule, new()
@@ -21,6 +37,7 @@ namespace Nazar.Framework
             }
 
             _modules.Add(moduleType, new T());
+
         }
 
         public void UnregisterModule<T>() where T : IAutonomousModule, new()

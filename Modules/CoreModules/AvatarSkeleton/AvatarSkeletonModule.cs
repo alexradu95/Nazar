@@ -20,6 +20,9 @@ namespace Nazar.CoreModules.AvatarSkeleton
 
         bool IAutonomousModule.IsEnabled { get => true; set => throw new NotImplementedException(); }
 
+        private bool nodeIsEnabled = true;
+        public bool NodeIsEnabled { get => nodeIsEnabled; set => nodeIsEnabled = value; }
+
         public AvatarSkeletonModule()
         {
             _stepper = SK.AddStepper<AvatarSkeletonStepper>();
@@ -27,7 +30,7 @@ namespace Nazar.CoreModules.AvatarSkeleton
 
         public void Step()
         {
-
+            
         }
 
         public void Shutdown()

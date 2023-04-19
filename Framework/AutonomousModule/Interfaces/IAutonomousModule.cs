@@ -2,6 +2,7 @@
 using Nazar.SceneGraph;
 
 namespace Nazar.Framework.Interfaces;
+
 // The IAutonomousModule interface defines the basic structure and properties
 // of an autonomous module within the application.
 public interface IAutonomousModule

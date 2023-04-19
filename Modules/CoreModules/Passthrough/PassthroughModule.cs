@@ -18,6 +18,7 @@ namespace Nazar.CoreModules.Passthrough
         public IStepper StereoKitStepper => _stepper;
 
         bool IAutonomousModule.IsEnabled { get => true; set => throw new NotImplementedException(); }
+        public bool NodeIsEnabled { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public PassthroughModule()
         {
