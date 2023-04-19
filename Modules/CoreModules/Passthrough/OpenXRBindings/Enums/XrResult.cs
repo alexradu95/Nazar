@@ -1,0 +1,7 @@
+﻿namespace Nazar.CoreModules.Passthrough.OpenXRBindings.Enums;
+
+// https://registry.khronos.org/OpenXR/specs/1.0/man/html/XrResult.html
+internal enum XrResult : uint
+{
+    SUCCESS = 0
+}

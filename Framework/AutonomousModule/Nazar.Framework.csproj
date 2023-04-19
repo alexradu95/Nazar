@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="StereoKit" Version="0.3.7-preview.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PubSubHub\Implementation\Nazar.PubSubHub.csproj" />
+    <ProjectReference Include="..\SceneGraph\Nazar.SceneGraph.csproj" />
+    <ProjectReference Include="..\StepperManager\Nazar.StepperManager.csproj" />
+  </ItemGroup>
+
+</Project>
